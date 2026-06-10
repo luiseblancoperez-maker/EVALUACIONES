@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Evaluación Digital Pro - Conexión Drive</title>
+    <title>Sistema de Evaluación Digital Pro - En Línea</title>
     <style>
         :root {
             --primary-color: #3498db;
@@ -206,17 +206,17 @@
 <div class="container">
     
     <div id="screen-login" class="screen active">
-        <h2 style="color: var(--primary-color);">Bienvenido Estudiante</h2>
-        <p style="text-align: center; color: #7f8c8d;">Ingresa tus datos para comenzar la evaluación</p>
+        <h2 style="color: var(--primary-color);">Evaluación Escolar</h2>
+        <p style="text-align: center; color: #7f8c8d;">Ingresa tus datos para comenzar la prueba</p>
         <div class="form-group">
-            <label for="student-name">Nombre Completo:</label>
-            <input type="text" id="student-name" placeholder="Escribe tu nombre aquí...">
+            <label for="student-name">Nombre Completo del Estudiante:</label>
+            <input type="text" id="student-name" placeholder="Escribe tu nombre y apellido...">
         </div>
         <div class="form-group">
             <label for="student-exam">Selecciona tu Grado / Examen:</label>
             <select id="student-exam"></select>
         </div>
-        <button class="btn" onclick="startExam()">INICIAR EXAMEN</button>
+        <button class="btn" onclick="startExam()">INICIAR EVALUACIÓN</button>
         <button class="btn btn-admin" style="margin-top: 40px; opacity: 0.7;" onclick="askPassword()">Módulo Docente</button>
     </div>
 
@@ -230,56 +230,54 @@
         </div>
         <h3 id="quiz-question" style="text-align: left; margin-bottom: 30px; line-height: 1.6;">Enunciado</h3>
         <div id="quiz-options"></div>
-        <p style="text-align: center; font-size: 12px; color: #bbb; margin-top: 20px;">Haz clic en una opción para avanzar</p>
+        <p style="text-align: center; font-size: 12px; color: #bbb; margin-top: 20px;">Haz clic en una opción para responder</p>
     </div>
 
     <div id="screen-result" class="screen">
-        <h2>Resultado Final</h2>
+        <h2>Resultado de la Prueba</h2>
         <p style="text-align: center; font-size: 20px;" id="result-welcome"></p>
         <div id="result-score" class="score">0.0</div>
         <p style="text-align: center; font-size: 16px;" id="result-details"></p>
-        <p style="text-align: center; font-size: 13px; color: #7f8c8d;" id="cloud-sync-status">Enviando nota a la nube del profesor...</p>
+        <p style="text-align: center; font-size: 13px; color: #7f8c8d;" id="cloud-sync-status">Sincronizando nota...</p>
         <button class="btn" onclick="resetApp()">Finalizar y Salir</button>
     </div>
 
     <div id="screen-admin" class="screen">
-        <h2>Panel de Administración Docente</h2>
+        <h2>Panel de Configuración Docente</h2>
         
-        <h3 style="text-align: left; border-bottom: 2px solid #ccc; padding-bottom: 5px;">1. Cargar Nuevo Examen</h3>
+        <h3 style="text-align: left; border-bottom: 2px solid #ccc; padding-bottom: 5px;">1. Generador de Formato JSON (Para pegar en el código)</h3>
         <div class="form-group">
             <label>Nombre del Grado o Materia:</label>
             <input type="text" id="new-exam-grade" placeholder="Ej: Tecnología 10°A">
         </div>
 
         <div class="box-creacion">
-            <label><strong>Pega el texto de Word aquí:</strong></label>
-            <p style="font-size: 11px; color: #666;">Usa el formato: Enunciado largo + opciones empezando con A. B. C. D.</p>
-            <textarea id="mass-input" style="height: 120px;" placeholder="¿Qué es...?&#10;A. Opción 1&#10;B. Opción 2..."></textarea>
+            <label><strong>Pega las preguntas de Word aquí:</strong></label>
+            <p style="font-size: 11px; color: #666;">Usa el formato: Enunciado largo + opciones A. B. C. D.</p>
+            <textarea id="mass-input" style="height: 100px;" placeholder="¿Qué es...?&#10;A. Opción 1&#10;B. Opción 2..."></textarea>
             <button class="btn" style="background-color: var(--accent-color);" onclick="procesarTextoMasivo()">PROCESAR PREGUNTAS</button>
         </div>
 
         <div id="wrapper-respuestas-correctas" style="display:none; margin-top: 20px;">
             <h4 style="color: var(--accent-color);">Define las Respuestas Correctas:</h4>
-            <div id="lista-preguntas-procesadas" style="max-height: 250px; overflow-y: auto; margin-bottom: 15px; border: 1px solid #ddd; padding: 15px; border-radius: 8px; background: #fafafa;"></div>
-            <button class="btn btn-save" onclick="guardarExamenCompleto()">💾 PUBLICAR EXAMEN COMPLETO</button>
+            <div id="lista-preguntas-procesadas" style="max-height: 200px; overflow-y: auto; margin-bottom: 15px; border: 1px solid #ddd; padding: 15px; border-radius: 8px; background: #fafafa;"></div>
+            <button class="btn btn-save" onclick="obtenerJsonEstructural()">⚙️ GENERAR CÓDIGO PARA EL ARCHIVO</button>
         </div>
 
-        <h4 style="text-align: left; margin-top: 30px;">Herramientas de Respaldo</h4>
-        <div class="grid-3">
-            <button class="btn" style="background-color: #34495e;" onclick="exportarExamenes()">Exportar JSON</button>
-            <button class="btn" style="background-color: #16a085;" onclick="triggerImportClick()">Importar JSON</button>
-            <input type="file" id="import-file" style="display: none;" accept=".json" onchange="importarExamenes(event)">
-            <button class="btn btn-save" onclick="exportarNotasExcel()">Reporte Excel Local</button>
+        <div id="wrapper-json-output" style="display:none; margin-top: 20px; background: #eef9ff; padding: 15px; border-radius: 8px; border: 1px solid #bce1ec;">
+            <label><strong>Copia esta línea de código generada:</strong></label>
+            <textarea id="json-output-text" style="height: 100px; font-family: monospace; font-size: 13px;" readonly onclick="this.select()"></textarea>
+            <p style="font-size: 12px; color: #31708f; margin: 5px 0 0 0;">💡 Haz clic adentro, cópiala y pégala en la sección BANCO_DE_EXAMENES_FIJOS al inicio del archivo.</p>
         </div>
 
-        <h3 style="text-align: left; border-bottom: 2px solid #ccc; padding-bottom: 5px; margin-top: 40px;">2. Historial de Notas Estudiantes</h3>
+        <h3 style="text-align: left; border-bottom: 2px solid #ccc; padding-bottom: 5px; margin-top: 40px;">2. Historial Local de Notas (Este Equipo)</h3>
         
         <div class="filter-box">
             <label for="filter-exam-select" style="color: var(--primary-color);">🔍 Filtrar resultados por Examen:</label>
             <select id="filter-exam-select" onchange="renderizarTablaNotas()"></select>
         </div>
 
-        <div style="max-height: 220px; overflow-y: auto; border: 1px solid #ddd; border-radius: 6px;">
+        <div style="max-height: 180px; overflow-y: auto; border: 1px solid #ddd; border-radius: 6px;">
             <table id="table-results">
                 <thead>
                     <tr><th>Estudiante</th><th>Examen / Grado</th><th>Nota</th><th>Fecha</th></tr>
@@ -288,9 +286,8 @@
             </table>
         </div>
         
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;">
-            <button class="btn btn-danger" onclick="clearData()">Borrar Notas</button>
-            <button class="btn btn-danger" onclick="clearExams()">Borrar Exámenes</button>
+        <div style="display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 15px;">
+            <button class="btn btn-danger" onclick="clearData()">Borrar Historial de Notas Locales</button>
         </div>
         <button class="btn btn-admin" style="margin-top: 20px;" onclick="showLogin()">Volver al Inicio</button>
     </div>
@@ -298,13 +295,266 @@
 </div>
 
 <script>
-    // ==========================================
-    // CONFIGURACIÓN DOCENTE - INSERTA TU URL AQUÍ
-    // ==========================================
+    // =========================================================================
+    // ⚙️ SECCIÓN DE CONFIGURACIÓN DIRECTA (MODIFICA AQUÍ)
+    // =========================================================================
+    
+    // 1. Pega aquí tu enlace largo de Google Apps Script:
     const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbwDQeIkf63dAVT2p9lPO4FywjeY5gmIdbtWVBIiumk_62mR5-B5f9CCbwSgG3BXdvej/exec";
+    
+    // 2. Modifica la contraseña de acceso si lo deseas:
     const SEÑOR_DOCENTE_PASSWORD = "123";
 
-    let examenesCargados = {};
+    // 3. AQUÍ QUEDAN GRABADOS TUS EXÁMENES REALES. 
+    const BANCO_DE_EXAMENES_FIJOS = {
+        "INFORMATICA 8°": [
+        {
+            "enunciado": "En la Institución Educativa Rural Las Cruces, los estudiantes están diseñando una carretilla para transportar la cosecha de yuca de manera más eficiente. Al analizar el funcionamiento de la carretilla, se identifica que el punto de apoyo se encuentra en la rueda (extremo), la carga de yuca está en el centro y la fuerza se aplica en los mangos (el otro extremo). De acuerdo con las guías de clase sobre operadores mecánicos, ¿a qué tipo de palanca corresponde este diseño?",
+            "a": "Palanca de primera clase",
+            "b": "Palanca de segunda clase",
+            "c": "Palanca de tercera clase",
+            "d": "Palanca de cuarto grado",
+            "correcta": "B"
+        },
+        {
+            "enunciado": "Un agricultor de la vereda No Lo Creen necesita sacar agua de un pozo profundo utilizando una polea fija de una sola rueda. Si el balde lleno de agua pesa 15 kg, ¿cuál es el efecto mecánico principal que experimenta el agricultor al usar este operador tecnológico?",
+            "a": "El agricultor debe aplicar la misma fuerza de 15 kg, pero cambia la dirección de la fuerza para que sea más cómodo jalar hacia abajo en lugar de levantar hacia arriba.",
+            "b": "El agricultor reduce el esfuerzo a la mitad, necesitando aplicar una fuerza equivalente a solo 7.5 kg.",
+            "c": "El balde sube automáticamente sin necesidad de aplicar fuerza, ya que la polea acumula energía cinética de forma continua.",
+            "d": "La fuerza requerida se duplica debido a la fricción constante que se genera en el cubo y la garganta de la polea.",
+            "correcta": "A"
+        },
+        {
+            "enunciado": "Para reparar el techo de uno de los salones de la escuela, se requiere subir un bloque de tejas muy pesado. El docente Luis Blanco sugiere que, para disminuir el esfuerzo físico de los trabajadores, se debería construir un mecanismo que no solo cambie la dirección de la fuerza, sino que multiplique la eficacia del trabajo reduciendo la fuerza motriz necesaria. Para lograr este objetivo específico, el operador mecánico ideal que se debe implementar es:",
+            "a": "Una polea fija simple",
+            "b": "Una palanca de tercera clase",
+            "c": "Un sistema de poleas compuestas (móviles y fijas)",
+            "d": "Un muelle o resorte helicoidal",
+            "correcta": "C"
+        },
+        {
+            "enunciado": "Al analizar la estructura de una polea utilizada en los proyectos escolares, un estudiante nota que la cuerda se sale constantemente de su sitio, impidiendo la transmisión fluida del movimiento circular. Para solucionar este problema técnico de diseño, ¿en cuál de las siguientes partes de la polea se debe realizar la corrección o ajuste geométrico?",
+            "a": "En la garganta o canal",
+            "b": "En el cubo central",
+            "c": "En el cuerpo sólido",
+            "d": "En el gancho de fijación de la estructura",
+            "correcta": "A"
+        },
+        {
+            "enunciado": "En la comunidad rural del municipio de Lorica, un joven utiliza una aplicación móvil que analiza miles de imágenes previas de hojas de cultivo de maíz para detectar de manera automática si la planta padece alguna enfermedad por hongos. De acuerdo con el concepto de Inteligencia Artificial estudiado en clase, este sistema informático funciona gracias a:",
+            "a": "Un algoritmo rígido de instrucciones fijas donde el programador escribió manualmente el diagnóstico exacto para cada planta del mundo.",
+            "b": "El aprendizaje automático (Machine Learning), que encuentra patrones visuales autónomos a partir de grandes cantidades de ejemplos de datos.",
+            "c": "Un operador mecánico oculto dentro de la pantalla del celular que transforma la energía solar en un diagnóstico biológico.",
+            "d": "La telepatía digital que conecta el cerebro del agricultor directamente con los servidores de internet.",
+            "correcta": "B"
+        },
+        {
+            "enunciado": "Durante un debate académico en la clase de Informática, un estudiante afirma que las aplicaciones de Inteligencia Artificial pueden reemplazar por completo el pensamiento, la experiencia empírica y la toma de decisiones de los habitantes del campo. Evaluando críticamente los conceptos analizados en clase, la postura más acertada frente a esta afirmación es:",
+            "a": "El estudiante tiene razón, porque las computadoras actuales piensan exactamente igual que los humanos y poseen sentimientos propios sobre el campo.",
+            "b": "La afirmación es incorrecta porque la Inteligencia Artificial solo funciona en las grandes ciudades y es técnicamente imposible usarla en zonas rurales.",
+            "c": "La IA es una herramienta de apoyo que optimiza tareas mediante el análisis de datos, pero carece de la conciencia, el contexto cultural, la intuición y la capacidad de adaptación humana.",
+            "d": "La IA reemplazará a los humanos únicamente cuando los operadores mecánicos básicos como las palancas dejen de funcionar en la Tierra.",
+            "correcta": "C"
+        },
+        {
+            "enunciado": "Un grupo de docentes quiere programar un sistema informático básico para registrar las notas de los alumnos del grado octavo. Para ello, escriben una lista estricta, ordenada y finita de pasos lógicos e instrucciones exactas que la computadora debe ejecutar al pie de la letra para promediar las calificaciones. De acuerdo con el material conceptual de la asignatura, este conjunto de pasos secuenciales se define técnicamente como:",
+            "a": "Un mecanismo de efectos encadenados",
+            "b": "Un operador hidráulico lineal",
+            "c": "Un algoritmo o sistema basado en reglas",
+            "d": "Un sistema de aprendizaje automático sin datos",
+            "correcta": "C"
+        },
+        {
+            "enunciado": "La alcaldía del municipio de Lorica desea implementar una estrategia tecnológica innovadora para apoyar a las familias de la vereda Las Cruces en la gestión de sus parcelas productivas. Tomando como base los ejemplos estudiados sobre la Inteligencia Artificial en el entorno del campo, ¿cuál de los siguientes proyectos demuestra un uso real y directo de la IA para este fin?",
+            "a": "Implementar un software predictivo que analice datos satelitales históricos para advertir con precisión la probabilidad de lluvias intensas antes de realizar las siembras.",
+            "b": "Regalar herramientas manuales tradicionales como machetes y azadones de acero reforzado a cada familia de agricultores.",
+            "c": "Cambiar el escudo físico e institucional de la escuela rural por uno impreso a color en papel fotográfico de alta calidad.",
+            "d": "Construir cercas de madera tradicionales alrededor de los salones de clase para resguardar los animales de granja.",
+            "correcta": "A"
+        },
+        {
+            "enunciado": "Al utilizar unas pinzas para hielo o unas pinzas de depilar, nos damos cuenta de que el punto de apoyo está en un extremo, la carga o resistencia que sujetamos está en el otro extremo, y la fuerza de nuestros dedos se aplica justo en la parte media. Según la clasificación de operadores estudiada, estas pinzas actúan como una:",
+            "a": "Palanca de primera clase",
+            "b": "Palanca de segunda clase",
+            "c": "Palanca de tercera clase",
+            "d": "Polea móvil excéntrica",
+            "correcta": "C"
+        },
+        {
+            "enunciado": "Un grupo de estudiantes está construyendo un experimento en el salón de informática y necesita un operador que pertenezca estrictamente a la categoría de elementos mecánicos encargados de \"acumular energía elástica\" para liberarla después. ¿Cuál de los siguientes operadores deben seleccionar?",
+            "a": "Un eje de transmisión de acero",
+            "b": "Una rueda dentada o engranaje",
+            "c": "Un muelle o resorte",
+            "d": "Una correa de caucho plana",
+            "correcta": "C"
+        },
+        {
+            "enunciado": "En la guía de clase se explica que una palanca de primera clase tiene el punto de apoyo (fulcro) ubicado exactamente entre la fuerza aplicada y la resistencia. ¿Cuál de las siguientes herramientas de uso común representa un ejemplo real de este tipo de palanca?",
+            "a": "Un abrelatas manual",
+            "b": "Una tijera de podar",
+            "c": "Una caña de pescar",
+            "d": "Un carretón de mudanzas",
+            "correcta": "B"
+        },
+        {
+            "enunciado": "Para que un sistema de Inteligencia Artificial basado en Aprendizaje Automático (Machine Learning) aprenda a diferenciar correctamente entre una planta sana y una enferma, requiere pasar por una fase inicial indispensable. Esta fase consiste en:",
+            "a": "Alimentar al sistema informático con grandes cantidades de ejemplos y datos previos estructurados.",
+            "b": "Conectar el cable de red de la computadora a un generador mecánico de poleas fijas.",
+            "c": "Cambiar las contraseñas de seguridad de los servidores escolares cada semana.",
+            "d": "Redactar un manual de instrucciones fijas donde esté prohibido usar datos o imágenes.",
+            "correcta": "A"
+        },
+        {
+            "enunciado": "¿Cuál es la diferencia técnica fundamental entre un algoritmo tradicional y un sistema avanzado de Inteligencia Artificial que utiliza Machine Learning?",
+            "a": "El algoritmo tradicional funciona sin electricidad, mientras que la Inteligencia Artificial requiere motores hidráulicos.",
+            "b": "El algoritmo tradicional sigue reglas e instrucciones exactas programadas de antemano; la IA descubre patrones propios analizando ejemplos y datos.",
+            "c": "El algoritmo requiere de una polea compuesta para realizar cálculos, mientras que la IA utiliza palancas de tercer grado.",
+            "d": "Los algoritmos tradicionales solo procesan números enteros y la IA solo reconoce voz humana en zonas urbanas.",
+            "correcta": "B"
+        },
+        {
+            "enunciado": "Las guías de clase definen un \"Operador\" como un elemento que nos ayuda a realizar una tarea o que transforma un tipo de energía en otro. Si clasificamos un grifo o llave de paso de agua corriente que maneja la presión de un fluido, este pertenece al grupo de los operadores:",
+            "a": "Operadores electrónicos",
+            "b": "Operadores mecánicos de acumulación",
+            "c": "Operadores hidráulicos",
+            "d": "Operadores neumáticos de aire",
+            "correcta": "C"
+        },
+        {
+            "enunciado": "Un agricultor de Lorica observa que su teléfono celular le muestra sugerencias exactas sobre el mejor día de la semana para vender sus productos según las tendencias de precios en internet. Este fenómeno informático es posible gracias a que la Inteligencia Artificial:",
+            "a": "Puede adivinar el futuro de forma mágica sin necesidad de procesar archivos digitales.",
+            "b": "Analiza de forma constante grandes volúmenes de datos e históricos de precios para calcular probabilidades útiles.",
+            "c": "Funciona mediante un operador mecánico de poleas oculto detrás de la pantalla táctil.",
+            "d": "Sigue un orden cerrado de pasos escritos hace cien años que nunca cambian ni se adaptan al mercado.",
+            "correcta": "B"
+        }
+    ], "ETICA 8°": [
+        {
+            "enunciado": "El Estado se define como la organización política y jurídica de una sociedad en un territorio determinado, que cuenta con un gobierno encargado de crear y hacer cumplir las leyes. Según esta definición y lo aprendido en la guía, Colombia está organizada como un Estado porque cuenta con cuatro elementos esenciales, que son:",
+            "a": "Un presidente, alcaldes de Lorica, profesores de Las Cruces y un rector.",
+            "b": "Un territorio, una población, un gobierno y unas leyes (Constitución).",
+            "c": "Una junta de acción comunal, un hospital, una escuela y parcelas agrícolas.",
+            "d": "Mecanismos de tutela, derechos de petición, votos y veedurías ciudadanas.",
+            "correcta": "B"
+        },
+        {
+            "enunciado": "El Artículo 1º de la Constitución Política de 1991 define a Colombia como un Estado Social de Derecho. Cuando se incorpora específicamente el término \"Social\", significa que el Estado no solo debe vigilar el orden, sino que adquiere el compromiso obligatorio de garantizar a los ciudadanos:",
+            "a": "La entrega de computadores y celulares de última tecnología a todas las familias.",
+            "b": "El acceso a servicios fundamentales como la educación, la salud, vivienda digna y trabajo justo.",
+            "c": "La exención total del pago de impuestos para los habitantes del sector urbano de Lorica.",
+            "d": "El control absoluto de las opiniones que los estudiantes expresan en sus cuadernos.",
+            "correcta": "B"
+        },
+        {
+            "enunciado": "En un Estado de Derecho, la característica de \"Legalidad\" es fundamental para la convivencia. Esta característica significa que:",
+            "a": "El presidente de la República puede crear las leyes que él prefiera sin consultar a nadie.",
+            "b": "Las autoridades locales tienen permitido demoler viviendas si consideran que el pueblo lo necesita.",
+            "c": "Todo acto o decisión adoptada por el gobierno debe estar estrictamente autorizado por la ley.",
+            "d": "Los ciudadanos con mayores recursos económicos tienen el beneficio de no ser sancionados.",
+            "correcta": "C"
+        },
+        {
+            "enunciado": "4. Lea con atención la siguiente situación: Un alcalde de Lorica ordena demoler una casa habitada sin realizar un debido proceso legal previo ni presentar una orden escrita autorizada. Los dueños afectados deciden acudir ante un juez para detener la demolición . En este caso, el principio del Estado de Derecho que protege a los ciudadanos establece que:",
+            "a": "Los gobernantes tienen poder absoluto y los ciudadanos deben aceptar sus decisiones sin protestar.",
+            "b": "Tanto los ciudadanos como las autoridades y gobernantes deben obedecer la ley, pues nadie está por encima de ella.",
+            "c": "La ley solo protege a las personas vulnerables si viven en el centro urbano del municipio.",
+            "d": "Los alcaldes tienen la facultad de modificar la Constitución de 1991 según las emergencias locales.",
+            "correcta": "B"
+        },
+        {
+            "enunciado": "La estructura del Estado de Derecho contempla la \"Separación de Poderes\". De acuerdo con la tabla analizada en la guía de clase, este concepto se traduce en que:",
+            "a": "El poder está dividido en tres ramas independientes: Ejecutivo, Legislativo y Judicial, para evitar abusos.",
+            "b": "El presidente concentra todas las funciones públicas para agilizar la toma de decisiones.",
+            "c": "Los recursos públicos del sector rural se separan de los presupuestos de las ciudades principales.",
+            "d": "Cada corregimiento de Lorica puede dictar de manera autónoma su propio código de leyes penales.",
+            "correcta": "A"
+        },
+        {
+            "enunciado": "Al comparar el \"Estado de Derecho\" con el \"Estado Social de Derecho\", se encuentra una evolución en los deberes del Estado. Mientras el Estado de Derecho se concentra principalmente en proteger las libertades individuales y mantener el orden, el Estado Social de Derecho va más allá porque:",
+            "a": "Elimina las funciones de los jueces y el Congreso para concentrar el control en los campesinos.",
+            "b": "Se preocupa por garantizar la justicia, la igualdad real y condiciones mínimas de bienestar, protegiendo a los más vulnerables.",
+            "c": "Exige que todos los estudiantes de las zonas rurales trabajen obligatoriamente desde jóvenes.",
+            "d": "Garantiza que no existan normas escritas y que los conflictos se solucionen de manera informal.",
+            "correcta": "B"
+        },
+        {
+            "enunciado": "La guía expone ejemplos concretos para diferenciar ambos modelos de Estado. Si el derecho a \"no ser detenido sin una causa justificada\" es un ejemplo propio del Estado de Derecho, un ejemplo claro que representa la acción de un Estado Social de Derecho es:",
+            "a": "El cobro de multas de tránsito en las carreteras municipales.",
+            "b": "El derecho a recibir educación gratuita y acceso a servicios de salud oportunos.",
+            "c": "La libertad de viajar a otros países sin portar documentos de identidad.",
+            "d": "El permiso gubernamental para construir viviendas en zonas de riesgo natural.",
+            "correcta": "B"
+        },
+        {
+            "enunciado": "El Estado Social de Derecho otorga una protección especial a sectores de la población que se encuentran en situaciones de vulnerabilidad debido a factores económicos, sociales o geográficos. Según el texto, este grupo prioritario incluye a:",
+            "a": "Los grandes comerciantes de la región, los inversionistas extranjeros y los jueces de la República.",
+            "b": "Los niños, los adultos mayores, los campesinos y las comunidades étnicas.",
+            "c": "Exclusivamente a las autoridades del gobierno que residen en la capital del país.",
+            "d": "Los estudiantes que deciden abandonar la escuela para trabajar de manera informal.",
+            "correcta": "B"
+        },
+        {
+            "enunciado": "Analice los siguientes beneficios que el Estado Social de Derecho aporta a la vida cotidiana de las personas. ¿Cuál de las siguientes opciones describe correctamente por qué este modelo de organización fortalece la vida democrática?",
+            "a": "Permite que los gobernantes actúen libremente según sus preferencias del momento.",
+            "b": "Asegura que las diferencias económicas impidan el acceso a los servicios de salud básica.",
+            "c": "Evita los abusos de poder, protege la dignidad humana, permite exigir derechos y promueve la igualdad real.",
+            "d": "Garantiza que la justicia se aplique de manera diferente dependiendo del estrato social del ciudadano.",
+            "correcta": "C"
+        },
+        {
+            "enunciado": "Para que el Estado Social de Derecho funcione de manera óptima en las comunidades, no basta con la existencia de la Constitución. El texto indica que este modelo funciona mejor cuando los ciudadanos:",
+            "a": "Permiten que los recursos públicos se gasten sin ningún tipo de vigilancia ciudadana.",
+            "b": "Deciden no participar en los procesos electorales de su municipio.",
+            "c": "Se informan adecuadamente, participan de manera activa y ejercen control social.",
+            "d": "Acuden a la violencia comunitaria como primera opción para solucionar desacuerdos cotidianos.",
+            "correcta": "C"
+        },
+        {
+            "enunciado": "Imagine el siguiente caso: A un agricultor de la comunidad de Las Cruces (Lorica) su entidad de salud (EPS) le niega de manera injustificada un servicio médico urgente que requiere para proteger su salud y su vida. De acuerdo con las herramientas legales estudiadas, el mecanismo más adecuado y rápido que debe usar el agricultor es:",
+            "a": "Un derecho de petición, porque necesita solicitar información general sobre el hospital.",
+            "b": "Una acción popular, debido a que el problema afecta al medio ambiente de toda la vereda.",
+            "c": "La acción de tutela, ya que sirve para proteger derechos fundamentales violados (como salud y vida).",
+            "d": "Una veeduría ciudadana, para auditar el presupuesto total anual de la EPS.",
+            "correcta": "C"
+        },
+        {
+            "enunciado": "La comunidad del corregimiento Las Cruces nota que el parque principal y el espacio público están siendo invadidos por construcciones particulares ilegales, afectando el libre tránsito de todos los habitantes. Para defender este derecho colectivo, la herramienta jurídica idónea es:",
+            "a": "La acción de tutela.",
+            "b": "La acción popular.",
+            "c": "El voto popular.",
+            "d": "El derecho de petición.",
+            "correcta": "B"
+        },
+        {
+            "enunciado": "Si un grupo de ciudadanos de Lorica desea examinar, vigilar y asegurar que los recursos públicos asignados para el mejoramiento de la infraestructura de la Institución Educativa Las Cruces se estén ejecutando de manera transparente y correcta, deben organizarse a través de:",
+            "a": "Una acción de tutela individual.",
+            "b": "Una veeduría ciudadana.",
+            "c": "Un derecho de petición de información reservada.",
+            "d": "Una jornada de votación local extemporánea.",
+            "correcta": "B"
+        },
+        {
+            "enunciado": "Durante el desarrollo del mini-proyecto \"Defensores del Derecho en Las Cruces\", los estudiantes trabajaron en equipos de 4 o 5 integrantes asignándose roles específicos. Si el equipo necesita consolidar las ideas principales en el cuaderno y registrar formalmente las conclusiones de los debates del grupo, esta responsabilidad recae sobre el:",
+            "a": "Diseñador.",
+            "b": "Líder.",
+            "c": "Investigador.",
+            "d": "Relator.",
+            "correcta": "D"
+        },
+        {
+            "enunciado": "En la campaña de información del proyecto, los estudiantes diseñaron carteles con la frase guía: \"En el Estado Social de Derecho, yo tengo derecho a... y puedo exigirlo mediante...\". Si el equipo seleccionó el derecho a la educación gratuita en el sector rural, la estructura lógicamente correcta para completar su afiche según la ley colombiana es:",
+            "a": "\"...derecho a la educación gratuita y puedo exigirlo mediante una acción popular para cambiar de alcalde\".",
+            "b": "\"...derecho a la educación gratuita y puedo exigirlo mediante una acción de tutela o derecho de petición si es vulnerado\".",
+            "c": "\"...derecho a la educación gratuita y puedo exigirlo mediante el uso del transporte público informal\".",
+            "d": "\"...derecho a la educación gratuita y puedo exigirlo mediante la suspensión del manual de convivencia escolar\".",
+            "correcta": "B"
+        }
+    ];
+
+    // =========================================================================
+    // LÓGICA DEL MOTOR INTERNO
+    // =========================================================================
+
     let preguntasProcesadasTemporales = [];
     let examenSeleccionado = [];
     let currentQuestionIndex = 0;
@@ -312,31 +562,16 @@
     let currentStudent = {};
 
     window.onload = function() {
-        loadExamsFromStorage();
         updateExamSelect();
     };
-
-    function loadExamsFromStorage() {
-        const stored = localStorage.getItem('banco_examenes');
-        if (stored) {
-            examenesCargados = JSON.parse(stored);
-        } else {
-            examenesCargados = {
-                "Ejemplo de Prueba": [
-                    { enunciado: "Esto es una prueba de textos largos. Selecciona la opción correcta para verificar el sistema.", a: "Opción incorrecta", b: "Respuesta Correcta", c: "Opción de relleno", d: "Otra opción", correcta: "B" }
-                ]
-            };
-            localStorage.setItem('banco_examenes', JSON.stringify(examenesCargados));
-        }
-    }
 
     function updateExamSelect() {
         const select = document.getElementById('student-exam');
         select.innerHTML = '';
-        const keys = Object.keys(examenesCargados);
+        const keys = Object.keys(BANCO_DE_EXAMENES_FIJOS);
         if(keys.length === 0) {
             const opt = document.createElement('option');
-            opt.text = "No hay exámenes disponibles";
+            opt.text = "No hay exámenes cargados en el sistema";
             select.appendChild(opt);
         } else {
             keys.forEach(k => {
@@ -355,7 +590,7 @@
         optTodos.text = "=== Mostrar Todos los Exámenes ===";
         filterSelect.appendChild(optTodos);
 
-        Object.keys(examenesCargados).forEach(k => {
+        Object.keys(BANCO_DE_EXAMENES_FIJOS).forEach(k => {
             const opt = document.createElement('option');
             opt.value = k; opt.text = k;
             filterSelect.appendChild(opt);
@@ -417,6 +652,7 @@
             lista.appendChild(div);
         });
         document.getElementById('wrapper-respuestas-correctas').style.display = 'block';
+        document.getElementById('wrapper-json-output').style.display = 'none';
     }
 
     function consolidarPregunta(bloque) {
@@ -430,29 +666,33 @@
         }
     }
 
-    function guardarExamenCompleto() {
+    function obtenerJsonEstructural() {
         const grado = document.getElementById('new-exam-grade').value.trim();
-        if(!grado) return alert("Escribe el nombre del grado.");
+        if(!grado) return alert("Escribe el nombre del grado o examen.");
         
         const examenFinal = preguntasProcesadasTemporales.filter(p => !p.invalid).map((p, index) => {
             const correcta = document.querySelector(`input[name="correcta_${index}"]:checked`).value;
             return { ...p, correcta };
         });
 
-        examenesCargados[grado] = examenFinal;
-        localStorage.setItem('banco_examenes', JSON.stringify(examenesCargados));
-        alert("Examen publicado.");
-        updateExamSelect();
-        showLogin();
+        const estructuraContenedor = {};
+        estructuraContenedor[grado] = examenFinal;
+
+        const jsonString = JSON.stringify(estructuraContenedor, null, 4);
+        
+        document.getElementById('json-output-text').value = jsonString.substring(1, jsonString.length - 1).trim() + ",";
+        document.getElementById('wrapper-json-output').style.display = 'block';
+        
+        alert("¡Código de estructura generado con éxito abajo! Cópialo y agrégalo a tu archivo index.html.");
     }
 
     function startExam() {
         const name = document.getElementById('student-name').value.trim();
         const selected = document.getElementById('student-exam').value;
 
-        if (!name || !selected || selected.includes("No hay")) return alert("Completa tus datos.");
+        if (!name || !selected || selected.includes("No hay")) return alert("Por favor, introduce tu nombre.");
 
-        let base = JSON.parse(JSON.stringify(examenesCargados[selected]));
+        let base = JSON.parse(JSON.stringify(BANCO_DE_EXAMENES_FIJOS[selected]));
         examenSeleccionado = shuffleArray(base).map(q => {
             const opts = shuffleArray([{l:'A',t:q.a},{l:'B',t:q.b},{l:'C',t:q.c},{l:'D',t:q.d}]);
             const correctText = q.correcta === 'A' ? q.a : q.correcta === 'B' ? q.b : q.correcta === 'C' ? q.c : q.d;
@@ -515,41 +755,32 @@
         }, 350);
     }
 
-    // LÓGICA DE ENVÍO DE DATOS EN LA NUBE CENTRALIZADA
     function finishExam() {
         const nota = ((correctAnswersCount / examenSeleccionado.length) * 5.0).toFixed(2);
         const timestamp = new Date().toLocaleString();
         
-        const payload = { 
-            name: currentStudent.name, 
-            grade: currentStudent.grade, 
-            nota: nota, 
-            date: timestamp 
-        };
+        const payload = { name: currentStudent.name, grade: currentStudent.grade, nota: nota, date: timestamp };
 
-        // 1. Guardado de respaldo local
         let registros = JSON.parse(localStorage.getItem('resultados_eval')) || [];
         registros.push(payload);
         localStorage.setItem('resultados_eval', JSON.stringify(registros));
 
-        // UI de resultados
-        document.getElementById('result-welcome').innerText = `¡Felicidades, ${currentStudent.name}!`;
+        document.getElementById('result-welcome').innerText = `¡Examen concluido, ${currentStudent.name}!`;
         const score = document.getElementById('result-score');
         score.innerText = nota;
         score.className = parseFloat(nota) >= 3.0 ? "score aprobado" : "score reprobado";
         document.getElementById('result-details').innerText = `Lograste ${correctAnswersCount} aciertos de ${examenSeleccionado.length} posibles.`;
         
         const statusLabel = document.getElementById('cloud-sync-status');
-        statusLabel.innerText = "Sincronizando nota con el servidor del profesor... ⏳";
+        statusLabel.innerText = "Sincronizando nota con el servidor... ⏳";
         statusLabel.style.color = "#7f8c8d";
 
         switchScreen('screen-result');
 
-        // 2. Envío directo a la API de Google Drive / Sheets
         if (URL_GOOGLE_SCRIPT && URL_GOOGLE_SCRIPT !== "PEGA_AQUÍ_TU_URL_DE_APPS_SCRIPT") {
             fetch(URL_GOOGLE_SCRIPT, {
                 method: 'POST',
-                mode: 'no-cors', // Evita problemas de políticas CORS entre servidores cruzados
+                mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             })
@@ -559,11 +790,11 @@
             })
             .catch(err => {
                 console.error(err);
-                statusLabel.innerText = "Guardado local completo. Error de conexión con la nube. ❌";
+                statusLabel.innerText = "Nota guardada localmente. Error de red. ❌";
                 statusLabel.style.color = "var(--danger-color)";
             });
         } else {
-            statusLabel.innerText = "Modo offline activo. Nota guardada solo en dispositivo.";
+            statusLabel.innerText = "Modo local activo. Nota guardada en el dispositivo.";
         }
     }
 
@@ -596,7 +827,7 @@
         });
 
         if (registrosFiltrados.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#7f8c8d;">No hay registros locales en este equipo.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#7f8c8d;">No hay registros locales en esta máquina.</td></tr>';
         } else {
             registrosFiltrados.reverse().forEach(r => {
                 const tr = document.createElement('tr');
@@ -611,40 +842,7 @@
         }
     }
 
-    function clearData() { if(confirm("¿Borrar notas locales?")) { localStorage.removeItem('resultados_eval'); renderizarTablaNotas(); } }
-    function clearExams() { if(confirm("¿Borrar exámenes?")) { localStorage.removeItem('banco_examenes'); loadExamsFromStorage(); updateExamSelect(); showAdmin(); } }
-
-    function exportarExamenes() {
-        const data = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(examenesCargados));
-        const a = document.createElement('a'); a.href = data; a.download = "examenes_backup.json"; a.click();
-    }
-
-    function triggerImportClick() { document.getElementById('import-file').click(); }
-    function importarExamenes(e) {
-        const file = e.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-            examenesCargados = { ...examenesCargados, ...JSON.parse(ev.target.result) };
-            localStorage.setItem('banco_examenes', JSON.stringify(examenesCargados));
-            alert("Importado con éxito."); updateExamSelect(); showAdmin();
-        };
-        reader.readAsText(file);
-    }
-
-    function exportarNotasExcel() {
-        const reg = JSON.parse(localStorage.getItem('resultados_eval')) || [];
-        const filtroSeleccionado = document.getElementById('filter-exam-select').value || "TODOS";
-        const filtrados = reg.filter(r => filtroSeleccionado === "TODOS" || r.grade === filtroSeleccionado);
-        if(filtrados.length === 0) return alert("No hay datos para exportar.");
-
-        let csv = "\uFEFFEstudiante;Examen;Nota;Fecha\n" + filtrados.map(r => `"${r.name}";"${r.grade}";"${r.nota}";"${r.date}"`).join("\n");
-        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-        const link = document.createElement("a"); 
-        link.href = URL.createObjectURL(blob); 
-        link.download = `notas_${filtroSeleccionado.replace(/\s+/g, '_')}.csv`; 
-        link.click();
-    }
+    function clearData() { if(confirm("¿Borrar notas de esta máquina?")) { localStorage.removeItem('resultados_eval'); renderizarTablaNotas(); } }
 </script>
 </body>
 </html>
