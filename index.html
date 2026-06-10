@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Evaluación Digital Pro - Filtro de Notas</title>
+    <title>Sistema de Evaluación Digital Pro - Conexión Drive</title>
     <style>
         :root {
             --primary-color: #3498db;
@@ -188,7 +188,6 @@
             margin-top: 15px;
         }
 
-        /* Estilos del área de filtrado */
         .filter-box {
             background-color: #f8f9fa;
             border: 1px solid #e2e8f0;
@@ -239,6 +238,7 @@
         <p style="text-align: center; font-size: 20px;" id="result-welcome"></p>
         <div id="result-score" class="score">0.0</div>
         <p style="text-align: center; font-size: 16px;" id="result-details"></p>
+        <p style="text-align: center; font-size: 13px; color: #7f8c8d;" id="cloud-sync-status">Enviando nota a la nube del profesor...</p>
         <button class="btn" onclick="resetApp()">Finalizar y Salir</button>
     </div>
 
@@ -269,7 +269,7 @@
             <button class="btn" style="background-color: #34495e;" onclick="exportarExamenes()">Exportar JSON</button>
             <button class="btn" style="background-color: #16a085;" onclick="triggerImportClick()">Importar JSON</button>
             <input type="file" id="import-file" style="display: none;" accept=".json" onchange="importarExamenes(event)">
-            <button class="btn btn-save" onclick="exportarNotasExcel()">Reporte Excel</button>
+            <button class="btn btn-save" onclick="exportarNotasExcel()">Reporte Excel Local</button>
         </div>
 
         <h3 style="text-align: left; border-bottom: 2px solid #ccc; padding-bottom: 5px; margin-top: 40px;">2. Historial de Notas Estudiantes</h3>
@@ -298,6 +298,10 @@
 </div>
 
 <script>
+    // ==========================================
+    // CONFIGURACIÓN DOCENTE - INSERTA TU URL AQUÍ
+    // ==========================================
+    const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbwDQeIkf63dAVT2p9lPO4FywjeY5gmIdbtWVBIiumk_62mR5-B5f9CCbwSgG3BXdvej/exec";
     const SEÑOR_DOCENTE_PASSWORD = "123";
 
     let examenesCargados = {};
@@ -342,7 +346,6 @@
         }
     }
 
-    // Actualiza el filtro del panel docente agregando la opción de 'Ver Todos'
     function actualizarFiltroDocente() {
         const filterSelect = document.getElementById('filter-exam-select');
         filterSelect.innerHTML = '';
@@ -512,18 +515,56 @@
         }, 350);
     }
 
+    // LÓGICA DE ENVÍO DE DATOS EN LA NUBE CENTRALIZADA
     function finishExam() {
         const nota = ((correctAnswersCount / examenSeleccionado.length) * 5.0).toFixed(2);
+        const timestamp = new Date().toLocaleString();
+        
+        const payload = { 
+            name: currentStudent.name, 
+            grade: currentStudent.grade, 
+            nota: nota, 
+            date: timestamp 
+        };
+
+        // 1. Guardado de respaldo local
         let registros = JSON.parse(localStorage.getItem('resultados_eval')) || [];
-        registros.push({ name: currentStudent.name, grade: currentStudent.grade, nota, date: new Date().toLocaleString() });
+        registros.push(payload);
         localStorage.setItem('resultados_eval', JSON.stringify(registros));
 
+        // UI de resultados
         document.getElementById('result-welcome').innerText = `¡Felicidades, ${currentStudent.name}!`;
         const score = document.getElementById('result-score');
         score.innerText = nota;
         score.className = parseFloat(nota) >= 3.0 ? "score aprobado" : "score reprobado";
         document.getElementById('result-details').innerText = `Lograste ${correctAnswersCount} aciertos de ${examenSeleccionado.length} posibles.`;
+        
+        const statusLabel = document.getElementById('cloud-sync-status');
+        statusLabel.innerText = "Sincronizando nota con el servidor del profesor... ⏳";
+        statusLabel.style.color = "#7f8c8d";
+
         switchScreen('screen-result');
+
+        // 2. Envío directo a la API de Google Drive / Sheets
+        if (URL_GOOGLE_SCRIPT && URL_GOOGLE_SCRIPT !== "PEGA_AQUÍ_TU_URL_DE_APPS_SCRIPT") {
+            fetch(URL_GOOGLE_SCRIPT, {
+                method: 'POST',
+                mode: 'no-cors', // Evita problemas de políticas CORS entre servidores cruzados
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            })
+            .then(() => {
+                statusLabel.innerText = "¡Nota guardada en la nube con éxito! ✅";
+                statusLabel.style.color = "var(--success-color)";
+            })
+            .catch(err => {
+                console.error(err);
+                statusLabel.innerText = "Guardado local completo. Error de conexión con la nube. ❌";
+                statusLabel.style.color = "var(--danger-color)";
+            });
+        } else {
+            statusLabel.innerText = "Modo offline activo. Nota guardada solo en dispositivo.";
+        }
     }
 
     function shuffleArray(a) {
@@ -537,7 +578,6 @@
     function resetApp() { document.getElementById('student-name').value = ''; showLogin(); }
     function showLogin() { switchScreen('screen-login'); }
 
-    // --- LÓGICA DE RENDERIZADO CON FILTRO ACTIVO ---
     function showAdmin() {
         switchScreen('screen-admin');
         actualizarFiltroDocente();
@@ -550,16 +590,14 @@
         const tbody = document.querySelector('#table-results tbody');
         tbody.innerHTML = '';
 
-        // Filtrar dinámicamente los registros de los estudiantes
         const registrosFiltrados = registros.filter(r => {
             if (filtroSeleccionado === "TODOS") return true;
             return r.grade === filtroSeleccionado;
         });
 
         if (registrosFiltrados.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#7f8c8d;">No hay registros para este criterio.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#7f8c8d;">No hay registros locales en este equipo.</td></tr>';
         } else {
-            // El .reverse() asegura que las notas más recientes aparezcan arriba
             registrosFiltrados.reverse().forEach(r => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
@@ -573,7 +611,7 @@
         }
     }
 
-    function clearData() { if(confirm("¿Borrar notas?")) { localStorage.removeItem('resultados_eval'); renderizarTablaNotas(); } }
+    function clearData() { if(confirm("¿Borrar notas locales?")) { localStorage.removeItem('resultados_eval'); renderizarTablaNotas(); } }
     function clearExams() { if(confirm("¿Borrar exámenes?")) { localStorage.removeItem('banco_examenes'); loadExamsFromStorage(); updateExamSelect(); showAdmin(); } }
 
     function exportarExamenes() {
@@ -597,10 +635,7 @@
     function exportarNotasExcel() {
         const reg = JSON.parse(localStorage.getItem('resultados_eval')) || [];
         const filtroSeleccionado = document.getElementById('filter-exam-select').value || "TODOS";
-        
-        // Exporta solo lo filtrado o todo según la vista del docente
         const filtrados = reg.filter(r => filtroSeleccionado === "TODOS" || r.grade === filtroSeleccionado);
-        
         if(filtrados.length === 0) return alert("No hay datos para exportar.");
 
         let csv = "\uFEFFEstudiante;Examen;Nota;Fecha\n" + filtrados.map(r => `"${r.name}";"${r.grade}";"${r.nota}";"${r.date}"`).join("\n");
