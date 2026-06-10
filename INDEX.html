@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Evaluación Digital Pro - Filtro de Notas</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --success-color: #2ecc71;
+            --danger-color: #e74c3c;
+            --bg-color: #f5f6fa;
+            --card-bg: #ffffff;
+            --text-color: #2c3e50;
+            --accent-color: #9b59b6;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 800px;
+            box-sizing: border-box;
+        }
+
+        h2, h3, h4 {
+            text-align: center;
+            margin-top: 0;
+            color: #2c3e50;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        input[type="text"], input[type="password"], select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 16px;
+            font-family: inherit;
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+
+        .btn:hover { background-color: #2980b9; }
+        .btn-admin { background-color: #7f8c8d; }
+        .btn-save { background-color: var(--success-color); }
+        .btn-danger { background-color: var(--danger-color); }
+
+        .option-container {
+            display: block;
+            position: relative;
+            padding: 15px 15px 15px 50px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            background-color: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 17px;
+            transition: all 0.2s ease;
+        }
+
+        .option-container:hover {
+            border-color: var(--primary-color);
+            background-color: #f1f7ff;
+        }
+
+        .option-container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            height: 24px;
+            width: 24px;
+            background-color: #fff;
+            border-radius: 50%;
+            border: 2px solid #ced4da;
+        }
+
+        .option-container input:checked ~ .checkmark {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        .option-container input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        .option-container .checkmark:after {
+            left: 8px;
+            top: 4px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            transform: rotate(45deg);
+        }
+
+        .screen { display: none; }
+        .screen.active { display: block; }
+        
+        .progress-bar-container {
+            width: 100%;
+            background-color: #e9ecef;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            height: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background-color: var(--success-color);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .score { font-size: 50px; font-weight: bold; text-align: center; margin: 20px 0; }
+        .score.aprobado { color: var(--success-color); }
+        .score.reprobado { color: var(--danger-color); }
+
+        .pregunta-item-config {
+            background: #f1f2f6;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border-left: 5px solid var(--accent-color);
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+
+        .box-creacion {
+            border: 1px dashed var(--accent-color);
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #fdfafb;
+            margin-top: 15px;
+        }
+
+        /* Estilos del área de filtrado */
+        .filter-box {
+            background-color: #f8f9fa;
+            border: 1px solid #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 5px; font-size: 14px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #f2f2f2; position: sticky; top: 0; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <div id="screen-login" class="screen active">
+        <h2 style="color: var(--primary-color);">Bienvenido Estudiante</h2>
+        <p style="text-align: center; color: #7f8c8d;">Ingresa tus datos para comenzar la evaluación</p>
+        <div class="form-group">
+            <label for="student-name">Nombre Completo:</label>
+            <input type="text" id="student-name" placeholder="Escribe tu nombre aquí...">
+        </div>
+        <div class="form-group">
+            <label for="student-exam">Selecciona tu Grado / Examen:</label>
+            <select id="student-exam"></select>
+        </div>
+        <button class="btn" onclick="startExam()">INICIAR EXAMEN</button>
+        <button class="btn btn-admin" style="margin-top: 40px; opacity: 0.7;" onclick="askPassword()">Módulo Docente</button>
+    </div>
+
+    <div id="screen-quiz" class="screen">
+        <div class="progress-bar-container">
+            <div id="quiz-progress-bar" class="progress-bar-fill"></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; color: #7f8c8d; font-size: 14px; margin-bottom: 10px;">
+            <span id="quiz-count-text">Pregunta 1 de X</span>
+            <span>Avance Automático Activo ⚡</span>
+        </div>
+        <h3 id="quiz-question" style="text-align: left; margin-bottom: 30px; line-height: 1.6;">Enunciado</h3>
+        <div id="quiz-options"></div>
+        <p style="text-align: center; font-size: 12px; color: #bbb; margin-top: 20px;">Haz clic en una opción para avanzar</p>
+    </div>
+
+    <div id="screen-result" class="screen">
+        <h2>Resultado Final</h2>
+        <p style="text-align: center; font-size: 20px;" id="result-welcome"></p>
+        <div id="result-score" class="score">0.0</div>
+        <p style="text-align: center; font-size: 16px;" id="result-details"></p>
+        <button class="btn" onclick="resetApp()">Finalizar y Salir</button>
+    </div>
+
+    <div id="screen-admin" class="screen">
+        <h2>Panel de Administración Docente</h2>
+        
+        <h3 style="text-align: left; border-bottom: 2px solid #ccc; padding-bottom: 5px;">1. Cargar Nuevo Examen</h3>
+        <div class="form-group">
+            <label>Nombre del Grado o Materia:</label>
+            <input type="text" id="new-exam-grade" placeholder="Ej: Tecnología 10°A">
+        </div>
+
+        <div class="box-creacion">
+            <label><strong>Pega el texto de Word aquí:</strong></label>
+            <p style="font-size: 11px; color: #666;">Usa el formato: Enunciado largo + opciones empezando con A. B. C. D.</p>
+            <textarea id="mass-input" style="height: 120px;" placeholder="¿Qué es...?&#10;A. Opción 1&#10;B. Opción 2..."></textarea>
+            <button class="btn" style="background-color: var(--accent-color);" onclick="procesarTextoMasivo()">PROCESAR PREGUNTAS</button>
+        </div>
+
+        <div id="wrapper-respuestas-correctas" style="display:none; margin-top: 20px;">
+            <h4 style="color: var(--accent-color);">Define las Respuestas Correctas:</h4>
+            <div id="lista-preguntas-procesadas" style="max-height: 250px; overflow-y: auto; margin-bottom: 15px; border: 1px solid #ddd; padding: 15px; border-radius: 8px; background: #fafafa;"></div>
+            <button class="btn btn-save" onclick="guardarExamenCompleto()">💾 PUBLICAR EXAMEN COMPLETO</button>
+        </div>
+
+        <h4 style="text-align: left; margin-top: 30px;">Herramientas de Respaldo</h4>
+        <div class="grid-3">
+            <button class="btn" style="background-color: #34495e;" onclick="exportarExamenes()">Exportar JSON</button>
+            <button class="btn" style="background-color: #16a085;" onclick="triggerImportClick()">Importar JSON</button>
+            <input type="file" id="import-file" style="display: none;" accept=".json" onchange="importarExamenes(event)">
+            <button class="btn btn-save" onclick="exportarNotasExcel()">Reporte Excel</button>
+        </div>
+
+        <h3 style="text-align: left; border-bottom: 2px solid #ccc; padding-bottom: 5px; margin-top: 40px;">2. Historial de Notas Estudiantes</h3>
+        
+        <div class="filter-box">
+            <label for="filter-exam-select" style="color: var(--primary-color);">🔍 Filtrar resultados por Examen:</label>
+            <select id="filter-exam-select" onchange="renderizarTablaNotas()"></select>
+        </div>
+
+        <div style="max-height: 220px; overflow-y: auto; border: 1px solid #ddd; border-radius: 6px;">
+            <table id="table-results">
+                <thead>
+                    <tr><th>Estudiante</th><th>Examen / Grado</th><th>Nota</th><th>Fecha</th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;">
+            <button class="btn btn-danger" onclick="clearData()">Borrar Notas</button>
+            <button class="btn btn-danger" onclick="clearExams()">Borrar Exámenes</button>
+        </div>
+        <button class="btn btn-admin" style="margin-top: 20px;" onclick="showLogin()">Volver al Inicio</button>
+    </div>
+
+</div>
+
+<script>
+    const SEÑOR_DOCENTE_PASSWORD = "123";
+
+    let examenesCargados = {};
+    let preguntasProcesadasTemporales = [];
+    let examenSeleccionado = [];
+    let currentQuestionIndex = 0;
+    let correctAnswersCount = 0;
+    let currentStudent = {};
+
+    window.onload = function() {
+        loadExamsFromStorage();
+        updateExamSelect();
+    };
+
+    function loadExamsFromStorage() {
+        const stored = localStorage.getItem('banco_examenes');
+        if (stored) {
+            examenesCargados = JSON.parse(stored);
+        } else {
+            examenesCargados = {
+                "Ejemplo de Prueba": [
+                    { enunciado: "Esto es una prueba de textos largos. Selecciona la opción correcta para verificar el sistema.", a: "Opción incorrecta", b: "Respuesta Correcta", c: "Opción de relleno", d: "Otra opción", correcta: "B" }
+                ]
+            };
+            localStorage.setItem('banco_examenes', JSON.stringify(examenesCargados));
+        }
+    }
+
+    function updateExamSelect() {
+        const select = document.getElementById('student-exam');
+        select.innerHTML = '';
+        const keys = Object.keys(examenesCargados);
+        if(keys.length === 0) {
+            const opt = document.createElement('option');
+            opt.text = "No hay exámenes disponibles";
+            select.appendChild(opt);
+        } else {
+            keys.forEach(k => {
+                const opt = document.createElement('option');
+                opt.value = k; opt.text = k; select.appendChild(opt);
+            });
+        }
+    }
+
+    // Actualiza el filtro del panel docente agregando la opción de 'Ver Todos'
+    function actualizarFiltroDocente() {
+        const filterSelect = document.getElementById('filter-exam-select');
+        filterSelect.innerHTML = '';
+        
+        const optTodos = document.createElement('option');
+        optTodos.value = "TODOS";
+        optTodos.text = "=== Mostrar Todos los Exámenes ===";
+        filterSelect.appendChild(optTodos);
+
+        Object.keys(examenesCargados).forEach(k => {
+            const opt = document.createElement('option');
+            opt.value = k; opt.text = k;
+            filterSelect.appendChild(opt);
+        });
+    }
+
+    function switchScreen(screenId) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(screenId).classList.add('active');
+    }
+
+    function askPassword() {
+        const pass = prompt("Acceso Restringido. Ingrese la contraseña del docente:");
+        if (pass === SEÑOR_DOCENTE_PASSWORD) { showAdmin(); } 
+        else if (pass !== null) { alert("Acceso denegado."); }
+    }
+
+    function procesarTextoMasivo() {
+        const rawText = document.getElementById('mass-input').value.trim();
+        if(!rawText) return;
+
+        const lineasRaw = rawText.split('\n').map(l => l.trim()).filter(l => l !== "");
+        preguntasProcesadasTemporales = [];
+        let bloqueActual = null;
+        const regexOpcion = /^([A-D])[\s\.\)]+/i;
+
+        for (let i = 0; i < lineasRaw.length; i++) {
+            const linea = lineasRaw[i];
+            const match = linea.match(regexOpcion);
+
+            if (!match) {
+                if (bloqueActual === null || bloqueActual.opciones.length > 0) {
+                    if (bloqueActual !== null) consolidarPregunta(bloqueActual);
+                    bloqueActual = { enunciado: linea, opciones: [] };
+                } else {
+                    bloqueActual.enunciado += " " + linea;
+                }
+            } else {
+                if (bloqueActual !== null) {
+                    bloqueActual.opciones.push(linea.replace(regexOpcion, "").trim());
+                }
+            }
+        }
+        if (bloqueActual !== null) consolidarPregunta(bloqueActual);
+
+        const lista = document.getElementById('lista-preguntas-procesadas');
+        lista.innerHTML = '';
+        preguntasProcesadasTemporales.forEach((p, index) => {
+            if(p.invalid) return;
+            const div = document.createElement('div');
+            div.className = 'pregunta-item-config';
+            div.innerHTML = `
+                <p><strong>${index+1}. ${p.enunciado}</strong></p>
+                <label><input type="radio" name="correcta_${index}" value="A" checked> A: ${p.a}</label><br>
+                <label><input type="radio" name="correcta_${index}" value="B"> B: ${p.b}</label><br>
+                <label><input type="radio" name="correcta_${index}" value="C"> C: ${p.c}</label><br>
+                <label><input type="radio" name="correcta_${index}" value="D"> D: ${p.d}</label>
+            `;
+            lista.appendChild(div);
+        });
+        document.getElementById('wrapper-respuestas-correctas').style.display = 'block';
+    }
+
+    function consolidarPregunta(bloque) {
+        if (bloque.opciones.length === 4) {
+            preguntasProcesadasTemporales.push({
+                enunciado: bloque.enunciado,
+                a: bloque.opciones[0], b: bloque.opciones[1], c: bloque.opciones[2], d: bloque.opciones[3]
+            });
+        } else {
+            preguntasProcesadasTemporales.push({ invalid: true });
+        }
+    }
+
+    function guardarExamenCompleto() {
+        const grado = document.getElementById('new-exam-grade').value.trim();
+        if(!grado) return alert("Escribe el nombre del grado.");
+        
+        const examenFinal = preguntasProcesadasTemporales.filter(p => !p.invalid).map((p, index) => {
+            const correcta = document.querySelector(`input[name="correcta_${index}"]:checked`).value;
+            return { ...p, correcta };
+        });
+
+        examenesCargados[grado] = examenFinal;
+        localStorage.setItem('banco_examenes', JSON.stringify(examenesCargados));
+        alert("Examen publicado.");
+        updateExamSelect();
+        showLogin();
+    }
+
+    function startExam() {
+        const name = document.getElementById('student-name').value.trim();
+        const selected = document.getElementById('student-exam').value;
+
+        if (!name || !selected || selected.includes("No hay")) return alert("Completa tus datos.");
+
+        let base = JSON.parse(JSON.stringify(examenesCargados[selected]));
+        examenSeleccionado = shuffleArray(base).map(q => {
+            const opts = shuffleArray([{l:'A',t:q.a},{l:'B',t:q.b},{l:'C',t:q.c},{l:'D',t:q.d}]);
+            const correctText = q.correcta === 'A' ? q.a : q.correcta === 'B' ? q.b : q.correcta === 'C' ? q.c : q.d;
+            const newQ = { enunciado: q.enunciado, a: opts[0].t, b: opts[1].t, c: opts[2].t, d: opts[3].t };
+            newQ.correcta = opts[0].t === correctText ? 'A' : opts[1].t === correctText ? 'B' : opts[2].t === correctText ? 'C' : 'D';
+            return newQ;
+        });
+
+        currentStudent = { name, grade: selected };
+        currentQuestionIndex = 0;
+        correctAnswersCount = 0;
+        switchScreen('screen-quiz');
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        const q = examenSeleccionado[currentQuestionIndex];
+        const total = examenSeleccionado.length;
+        
+        document.getElementById('quiz-count-text').innerText = `Pregunta ${currentQuestionIndex + 1} de ${total}`;
+        document.getElementById('quiz-progress-bar').style.width = `${((currentQuestionIndex) / total) * 100}%`;
+        document.getElementById('quiz-question').innerText = q.enunciado;
+
+        const optionsHtml = `
+            <label class="option-container">
+                <input type="radio" name="answer" value="A" onclick="autoNext('A')">
+                A. ${q.a} <span class="checkmark"></span>
+            </label>
+            <label class="option-container">
+                <input type="radio" name="answer" value="B" onclick="autoNext('B')">
+                B. ${q.b} <span class="checkmark"></span>
+            </label>
+            <label class="option-container">
+                <input type="radio" name="answer" value="C" onclick="autoNext('C')">
+                C. ${q.c} <span class="checkmark"></span>
+            </label>
+            <label class="option-container">
+                <input type="radio" name="answer" value="D" onclick="autoNext('D')">
+                D. ${q.d} <span class="checkmark"></span>
+            </label>
+        `;
+        document.getElementById('quiz-options').innerHTML = optionsHtml;
+    }
+
+    function autoNext(voto) {
+        const inputs = document.querySelectorAll('input[name="answer"]');
+        inputs.forEach(i => i.disabled = true);
+
+        if (voto === examenSeleccionado[currentQuestionIndex].correcta) {
+            correctAnswersCount++;
+        }
+
+        setTimeout(() => {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < examenSeleccionado.length) {
+                loadQuestion();
+            } else {
+                finishExam();
+            }
+        }, 350);
+    }
+
+    function finishExam() {
+        const nota = ((correctAnswersCount / examenSeleccionado.length) * 5.0).toFixed(2);
+        let registros = JSON.parse(localStorage.getItem('resultados_eval')) || [];
+        registros.push({ name: currentStudent.name, grade: currentStudent.grade, nota, date: new Date().toLocaleString() });
+        localStorage.setItem('resultados_eval', JSON.stringify(registros));
+
+        document.getElementById('result-welcome').innerText = `¡Felicidades, ${currentStudent.name}!`;
+        const score = document.getElementById('result-score');
+        score.innerText = nota;
+        score.className = parseFloat(nota) >= 3.0 ? "score aprobado" : "score reprobado";
+        document.getElementById('result-details').innerText = `Lograste ${correctAnswersCount} aciertos de ${examenSeleccionado.length} posibles.`;
+        switchScreen('screen-result');
+    }
+
+    function shuffleArray(a) {
+        for (let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+    }
+
+    function resetApp() { document.getElementById('student-name').value = ''; showLogin(); }
+    function showLogin() { switchScreen('screen-login'); }
+
+    // --- LÓGICA DE RENDERIZADO CON FILTRO ACTIVO ---
+    function showAdmin() {
+        switchScreen('screen-admin');
+        actualizarFiltroDocente();
+        renderizarTablaNotas();
+    }
+
+    function renderizarTablaNotas() {
+        const registros = JSON.parse(localStorage.getItem('resultados_eval')) || [];
+        const filtroSeleccionado = document.getElementById('filter-exam-select').value || "TODOS";
+        const tbody = document.querySelector('#table-results tbody');
+        tbody.innerHTML = '';
+
+        // Filtrar dinámicamente los registros de los estudiantes
+        const registrosFiltrados = registros.filter(r => {
+            if (filtroSeleccionado === "TODOS") return true;
+            return r.grade === filtroSeleccionado;
+        });
+
+        if (registrosFiltrados.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#7f8c8d;">No hay registros para este criterio.</td></tr>';
+        } else {
+            // El .reverse() asegura que las notas más recientes aparezcan arriba
+            registrosFiltrados.reverse().forEach(r => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${r.name}</td>
+                    <td>${r.grade}</td>
+                    <td style="font-weight:bold; color:${r.nota >= 3.0 ? 'var(--success-color)' : 'var(--danger-color)'}">${r.nota}</td>
+                    <td>${r.date}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+    }
+
+    function clearData() { if(confirm("¿Borrar notas?")) { localStorage.removeItem('resultados_eval'); renderizarTablaNotas(); } }
+    function clearExams() { if(confirm("¿Borrar exámenes?")) { localStorage.removeItem('banco_examenes'); loadExamsFromStorage(); updateExamSelect(); showAdmin(); } }
+
+    function exportarExamenes() {
+        const data = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(examenesCargados));
+        const a = document.createElement('a'); a.href = data; a.download = "examenes_backup.json"; a.click();
+    }
+
+    function triggerImportClick() { document.getElementById('import-file').click(); }
+    function importarExamenes(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+            examenesCargados = { ...examenesCargados, ...JSON.parse(ev.target.result) };
+            localStorage.setItem('banco_examenes', JSON.stringify(examenesCargados));
+            alert("Importado con éxito."); updateExamSelect(); showAdmin();
+        };
+        reader.readAsText(file);
+    }
+
+    function exportarNotasExcel() {
+        const reg = JSON.parse(localStorage.getItem('resultados_eval')) || [];
+        const filtroSeleccionado = document.getElementById('filter-exam-select').value || "TODOS";
+        
+        // Exporta solo lo filtrado o todo según la vista del docente
+        const filtrados = reg.filter(r => filtroSeleccionado === "TODOS" || r.grade === filtroSeleccionado);
+        
+        if(filtrados.length === 0) return alert("No hay datos para exportar.");
+
+        let csv = "\uFEFFEstudiante;Examen;Nota;Fecha\n" + filtrados.map(r => `"${r.name}";"${r.grade}";"${r.nota}";"${r.date}"`).join("\n");
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement("a"); 
+        link.href = URL.createObjectURL(blob); 
+        link.download = `notas_${filtroSeleccionado.replace(/\s+/g, '_')}.csv`; 
+        link.click();
+    }
+</script>
+</body>
+</html>
