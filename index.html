@@ -296,260 +296,258 @@
 
 <script>
     // =========================================================================
-    // ⚙️ SECCIÓN DE CONFIGURACIÓN DIRECTA (MODIFICA AQUÍ)
+    // ⚙️ SECCIÓN DE CONFIGURACIÓN DIRECTA
     // =========================================================================
     
-    // 1. Pega aquí tu enlace largo de Google Apps Script:
     const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbwDQeIkf63dAVT2p9lPO4FywjeY5gmIdbtWVBIiumk_62mR5-B5f9CCbwSgG3BXdvej/exec";
-    
-    // 2. Modifica la contraseña de acceso si lo deseas:
     const SEÑOR_DOCENTE_PASSWORD = "123";
 
-    // 3. AQUÍ QUEDAN GRABADOS TUS EXÁMENES REALES. 
     const BANCO_DE_EXAMENES_FIJOS = {
         "INFORMATICA 8°": [
-        {
-            "enunciado": "En la Institución Educativa Rural Las Cruces, los estudiantes están diseñando una carretilla para transportar la cosecha de yuca de manera más eficiente. Al analizar el funcionamiento de la carretilla, se identifica que el punto de apoyo se encuentra en la rueda (extremo), la carga de yuca está en el centro y la fuerza se aplica en los mangos (el otro extremo). De acuerdo con las guías de clase sobre operadores mecánicos, ¿a qué tipo de palanca corresponde este diseño?",
-            "a": "Palanca de primera clase",
-            "b": "Palanca de segunda clase",
-            "c": "Palanca de tercera clase",
-            "d": "Palanca de cuarto grado",
-            "correcta": "B"
-        },
-        {
-            "enunciado": "Un agricultor de la vereda No Lo Creen necesita sacar agua de un pozo profundo utilizando una polea fija de una sola rueda. Si el balde lleno de agua pesa 15 kg, ¿cuál es el efecto mecánico principal que experimenta el agricultor al usar este operador tecnológico?",
-            "a": "El agricultor debe aplicar la misma fuerza de 15 kg, pero cambia la dirección de la fuerza para que sea más cómodo jalar hacia abajo en lugar de levantar hacia arriba.",
-            "b": "El agricultor reduce el esfuerzo a la mitad, necesitando aplicar una fuerza equivalente a solo 7.5 kg.",
-            "c": "El balde sube automáticamente sin necesidad de aplicar fuerza, ya que la polea acumula energía cinética de forma continua.",
-            "d": "La fuerza requerida se duplica debido a la fricción constante que se genera en el cubo y la garganta de la polea.",
-            "correcta": "A"
-        },
-        {
-            "enunciado": "Para reparar el techo de uno de los salones de la escuela, se requiere subir un bloque de tejas muy pesado. El docente Luis Blanco sugiere que, para disminuir el esfuerzo físico de los trabajadores, se debería construir un mecanismo que no solo cambie la dirección de la fuerza, sino que multiplique la eficacia del trabajo reduciendo la fuerza motriz necesaria. Para lograr este objetivo específico, el operador mecánico ideal que se debe implementar es:",
-            "a": "Una polea fija simple",
-            "b": "Una palanca de tercera clase",
-            "c": "Un sistema de poleas compuestas (móviles y fijas)",
-            "d": "Un muelle o resorte helicoidal",
-            "correcta": "C"
-        },
-        {
-            "enunciado": "Al analizar la estructura de una polea utilizada en los proyectos escolares, un estudiante nota que la cuerda se sale constantemente de su sitio, impidiendo la transmisión fluida del movimiento circular. Para solucionar este problema técnico de diseño, ¿en cuál de las siguientes partes de la polea se debe realizar la corrección o ajuste geométrico?",
-            "a": "En la garganta o canal",
-            "b": "En el cubo central",
-            "c": "En el cuerpo sólido",
-            "d": "En el gancho de fijación de la estructura",
-            "correcta": "A"
-        },
-        {
-            "enunciado": "En la comunidad rural del municipio de Lorica, un joven utiliza una aplicación móvil que analiza miles de imágenes previas de hojas de cultivo de maíz para detectar de manera automática si la planta padece alguna enfermedad por hongos. De acuerdo con el concepto de Inteligencia Artificial estudiado en clase, este sistema informático funciona gracias a:",
-            "a": "Un algoritmo rígido de instrucciones fijas donde el programador escribió manualmente el diagnóstico exacto para cada planta del mundo.",
-            "b": "El aprendizaje automático (Machine Learning), que encuentra patrones visuales autónomos a partir de grandes cantidades de ejemplos de datos.",
-            "c": "Un operador mecánico oculto dentro de la pantalla del celular que transforma la energía solar en un diagnóstico biológico.",
-            "d": "La telepatía digital que conecta el cerebro del agricultor directamente con los servidores de internet.",
-            "correcta": "B"
-        },
-        {
-            "enunciado": "Durante un debate académico en la clase de Informática, un estudiante afirma que las aplicaciones de Inteligencia Artificial pueden reemplazar por completo el pensamiento, la experiencia empírica y la toma de decisiones de los habitantes del campo. Evaluando críticamente los conceptos analizados en clase, la postura más acertada frente a esta afirmación es:",
-            "a": "El estudiante tiene razón, porque las computadoras actuales piensan exactamente igual que los humanos y poseen sentimientos propios sobre el campo.",
-            "b": "La afirmación es incorrecta porque la Inteligencia Artificial solo funciona en las grandes ciudades y es técnicamente imposible usarla en zonas rurales.",
-            "c": "La IA es una herramienta de apoyo que optimiza tareas mediante el análisis de datos, pero carece de la conciencia, el contexto cultural, la intuición y la capacidad de adaptación humana.",
-            "d": "La IA reemplazará a los humanos únicamente cuando los operadores mecánicos básicos como las palancas dejen de funcionar en la Tierra.",
-            "correcta": "C"
-        },
-        {
-            "enunciado": "Un grupo de docentes quiere programar un sistema informático básico para registrar las notas de los alumnos del grado octavo. Para ello, escriben una lista estricta, ordenada y finita de pasos lógicos e instrucciones exactas que la computadora debe ejecutar al pie de la letra para promediar las calificaciones. De acuerdo con el material conceptual de la asignatura, este conjunto de pasos secuenciales se define técnicamente como:",
-            "a": "Un mecanismo de efectos encadenados",
-            "b": "Un operador hidráulico lineal",
-            "c": "Un algoritmo o sistema basado en reglas",
-            "d": "Un sistema de aprendizaje automático sin datos",
-            "correcta": "C"
-        },
-        {
-            "enunciado": "La alcaldía del municipio de Lorica desea implementar una estrategia tecnológica innovadora para apoyar a las familias de la vereda Las Cruces en la gestión de sus parcelas productivas. Tomando como base los ejemplos estudiados sobre la Inteligencia Artificial en el entorno del campo, ¿cuál de los siguientes proyectos demuestra un uso real y directo de la IA para este fin?",
-            "a": "Implementar un software predictivo que analice datos satelitales históricos para advertir con precisión la probabilidad de lluvias intensas antes de realizar las siembras.",
-            "b": "Regalar herramientas manuales tradicionales como machetes y azadones de acero reforzado a cada familia de agricultores.",
-            "c": "Cambiar el escudo físico e institucional de la escuela rural por uno impreso a color en papel fotográfico de alta calidad.",
-            "d": "Construir cercas de madera tradicionales alrededor de los salones de clase para resguardar los animales de granja.",
-            "correcta": "A"
-        },
-        {
-            "enunciado": "Al utilizar unas pinzas para hielo o unas pinzas de depilar, nos damos cuenta de que el punto de apoyo está en un extremo, la carga o resistencia que sujetamos está en el otro extremo, y la fuerza de nuestros dedos se aplica justo en la parte media. Según la clasificación de operadores estudiada, estas pinzas actúan como una:",
-            "a": "Palanca de primera clase",
-            "b": "Palanca de segunda clase",
-            "c": "Palanca de tercera clase",
-            "d": "Polea móvil excéntrica",
-            "correcta": "C"
-        },
-        {
-            "enunciado": "Un grupo de estudiantes está construyendo un experimento en el salón de informática y necesita un operador que pertenezca estrictamente a la categoría de elementos mecánicos encargados de \"acumular energía elástica\" para liberarla después. ¿Cuál de los siguientes operadores deben seleccionar?",
-            "a": "Un eje de transmisión de acero",
-            "b": "Una rueda dentada o engranaje",
-            "c": "Un muelle o resorte",
-            "d": "Una correa de caucho plana",
-            "correcta": "C"
-        },
-        {
-            "enunciado": "En la guía de clase se explica que una palanca de primera clase tiene el punto de apoyo (fulcro) ubicado exactamente entre la fuerza aplicada y la resistencia. ¿Cuál de las siguientes herramientas de uso común representa un ejemplo real de este tipo de palanca?",
-            "a": "Un abrelatas manual",
-            "b": "Una tijera de podar",
-            "c": "Una caña de pescar",
-            "d": "Un carretón de mudanzas",
-            "correcta": "B"
-        },
-        {
-            "enunciado": "Para que un sistema de Inteligencia Artificial basado en Aprendizaje Automático (Machine Learning) aprenda a diferenciar correctamente entre una planta sana y una enferma, requiere pasar por una fase inicial indispensable. Esta fase consiste en:",
-            "a": "Alimentar al sistema informático con grandes cantidades de ejemplos y datos previos estructurados.",
-            "b": "Conectar el cable de red de la computadora a un generador mecánico de poleas fijas.",
-            "c": "Cambiar las contraseñas de seguridad de los servidores escolares cada semana.",
-            "d": "Redactar un manual de instrucciones fijas donde esté prohibido usar datos o imágenes.",
-            "correcta": "A"
-        },
-        {
-            "enunciado": "¿Cuál es la diferencia técnica fundamental entre un algoritmo tradicional y un sistema avanzado de Inteligencia Artificial que utiliza Machine Learning?",
-            "a": "El algoritmo tradicional funciona sin electricidad, mientras que la Inteligencia Artificial requiere motores hidráulicos.",
-            "b": "El algoritmo tradicional sigue reglas e instrucciones exactas programadas de antemano; la IA descubre patrones propios analizando ejemplos y datos.",
-            "c": "El algoritmo requiere de una polea compuesta para realizar cálculos, mientras que la IA utiliza palancas de tercer grado.",
-            "d": "Los algoritmos tradicionales solo procesan números enteros y la IA solo reconoce voz humana en zonas urbanas.",
-            "correcta": "B"
-        },
-        {
-            "enunciado": "Las guías de clase definen un \"Operador\" como un elemento que nos ayuda a realizar una tarea o que transforma un tipo de energía en otro. Si clasificamos un grifo o llave de paso de agua corriente que maneja la presión de un fluido, este pertenece al grupo de los operadores:",
-            "a": "Operadores electrónicos",
-            "b": "Operadores mecánicos de acumulación",
-            "c": "Operadores hidráulicos",
-            "d": "Operadores neumáticos de aire",
-            "correcta": "C"
-        },
-        {
-            "enunciado": "Un agricultor de Lorica observa que su teléfono celular le muestra sugerencias exactas sobre el mejor día de la semana para vender sus productos según las tendencias de precios en internet. Este fenómeno informático es posible gracias a que la Inteligencia Artificial:",
-            "a": "Puede adivinar el futuro de forma mágica sin necesidad de procesar archivos digitales.",
-            "b": "Analiza de forma constante grandes volúmenes de datos e históricos de precios para calcular probabilidades útiles.",
-            "c": "Funciona mediante un operador mecánico de poleas oculto detrás de la pantalla táctil.",
-            "d": "Sigue un orden cerrado de pasos escritos hace cien años que nunca cambian ni se adaptan al mercado.",
-            "correcta": "B"
-        }
-    ], "ETICA 8°": [
-        {
-            "enunciado": "El Estado se define como la organización política y jurídica de una sociedad en un territorio determinado, que cuenta con un gobierno encargado de crear y hacer cumplir las leyes. Según esta definición y lo aprendido en la guía, Colombia está organizada como un Estado porque cuenta con cuatro elementos esenciales, que son:",
-            "a": "Un presidente, alcaldes de Lorica, profesores de Las Cruces y un rector.",
-            "b": "Un territorio, una población, un gobierno y unas leyes (Constitución).",
-            "c": "Una junta de acción comunal, un hospital, una escuela y parcelas agrícolas.",
-            "d": "Mecanismos de tutela, derechos de petición, votos y veedurías ciudadanas.",
-            "correcta": "B"
-        },
-        {
-            "enunciado": "El Artículo 1º de la Constitución Política de 1991 define a Colombia como un Estado Social de Derecho. Cuando se incorpora específicamente el término \"Social\", significa que el Estado no solo debe vigilar el orden, sino que adquiere el compromiso obligatorio de garantizar a los ciudadanos:",
-            "a": "La entrega de computadores y celulares de última tecnología a todas las familias.",
-            "b": "El acceso a servicios fundamentales como la educación, la salud, vivienda digna y trabajo justo.",
-            "c": "La exención total del pago de impuestos para los habitantes del sector urbano de Lorica.",
-            "d": "El control absoluto de las opiniones que los estudiantes expresan en sus cuadernos.",
-            "correcta": "B"
-        },
-        {
-            "enunciado": "En un Estado de Derecho, la característica de \"Legalidad\" es fundamental para la convivencia. Esta característica significa que:",
-            "a": "El presidente de la República puede crear las leyes que él prefiera sin consultar a nadie.",
-            "b": "Las autoridades locales tienen permitido demoler viviendas si consideran que el pueblo lo necesita.",
-            "c": "Todo acto o decisión adoptada por el gobierno debe estar estrictamente autorizado por la ley.",
-            "d": "Los ciudadanos con mayores recursos económicos tienen el beneficio de no ser sancionados.",
-            "correcta": "C"
-        },
-        {
-            "enunciado": "4. Lea con atención la siguiente situación: Un alcalde de Lorica ordena demoler una casa habitada sin realizar un debido proceso legal previo ni presentar una orden escrita autorizada. Los dueños afectados deciden acudir ante un juez para detener la demolición . En este caso, el principio del Estado de Derecho que protege a los ciudadanos establece que:",
-            "a": "Los gobernantes tienen poder absoluto y los ciudadanos deben aceptar sus decisiones sin protestar.",
-            "b": "Tanto los ciudadanos como las autoridades y gobernantes deben obedecer la ley, pues nadie está por encima de ella.",
-            "c": "La ley solo protege a las personas vulnerables si viven en el centro urbano del municipio.",
-            "d": "Los alcaldes tienen la facultad de modificar la Constitución de 1991 según las emergencias locales.",
-            "correcta": "B"
-        },
-        {
-            "enunciado": "La estructura del Estado de Derecho contempla la \"Separación de Poderes\". De acuerdo con la tabla analizada en la guía de clase, este concepto se traduce en que:",
-            "a": "El poder está dividido en tres ramas independientes: Ejecutivo, Legislativo y Judicial, para evitar abusos.",
-            "b": "El presidente concentra todas las funciones públicas para agilizar la toma de decisiones.",
-            "c": "Los recursos públicos del sector rural se separan de los presupuestos de las ciudades principales.",
-            "d": "Cada corregimiento de Lorica puede dictar de manera autónoma su propio código de leyes penales.",
-            "correcta": "A"
-        },
-        {
-            "enunciado": "Al comparar el \"Estado de Derecho\" con el \"Estado Social de Derecho\", se encuentra una evolución en los deberes del Estado. Mientras el Estado de Derecho se concentra principalmente en proteger las libertades individuales y mantener el orden, el Estado Social de Derecho va más allá porque:",
-            "a": "Elimina las funciones de los jueces y el Congreso para concentrar el control en los campesinos.",
-            "b": "Se preocupa por garantizar la justicia, la igualdad real y condiciones mínimas de bienestar, protegiendo a los más vulnerables.",
-            "c": "Exige que todos los estudiantes de las zonas rurales trabajen obligatoriamente desde jóvenes.",
-            "d": "Garantiza que no existan normas escritas y que los conflictos se solucionen de manera informal.",
-            "correcta": "B"
-        },
-        {
-            "enunciado": "La guía expone ejemplos concretos para diferenciar ambos modelos de Estado. Si el derecho a \"no ser detenido sin una causa justificada\" es un ejemplo propio del Estado de Derecho, un ejemplo claro que representa la acción de un Estado Social de Derecho es:",
-            "a": "El cobro de multas de tránsito en las carreteras municipales.",
-            "b": "El derecho a recibir educación gratuita y acceso a servicios de salud oportunos.",
-            "c": "La libertad de viajar a otros países sin portar documentos de identidad.",
-            "d": "El permiso gubernamental para construir viviendas en zonas de riesgo natural.",
-            "correcta": "B"
-        },
-        {
-            "enunciado": "El Estado Social de Derecho otorga una protección especial a sectores de la población que se encuentran en situaciones de vulnerabilidad debido a factores económicos, sociales o geográficos. Según el texto, este grupo prioritario incluye a:",
-            "a": "Los grandes comerciantes de la región, los inversionistas extranjeros y los jueces de la República.",
-            "b": "Los niños, los adultos mayores, los campesinos y las comunidades étnicas.",
-            "c": "Exclusivamente a las autoridades del gobierno que residen en la capital del país.",
-            "d": "Los estudiantes que deciden abandonar la escuela para trabajar de manera informal.",
-            "correcta": "B"
-        },
-        {
-            "enunciado": "Analice los siguientes beneficios que el Estado Social de Derecho aporta a la vida cotidiana de las personas. ¿Cuál de las siguientes opciones describe correctamente por qué este modelo de organización fortalece la vida democrática?",
-            "a": "Permite que los gobernantes actúen libremente según sus preferencias del momento.",
-            "b": "Asegura que las diferencias económicas impidan el acceso a los servicios de salud básica.",
-            "c": "Evita los abusos de poder, protege la dignidad humana, permite exigir derechos y promueve la igualdad real.",
-            "d": "Garantiza que la justicia se aplique de manera diferente dependiendo del estrato social del ciudadano.",
-            "correcta": "C"
-        },
-        {
-            "enunciado": "Para que el Estado Social de Derecho funcione de manera óptima en las comunidades, no basta con la existencia de la Constitución. El texto indica que este modelo funciona mejor cuando los ciudadanos:",
-            "a": "Permiten que los recursos públicos se gasten sin ningún tipo de vigilancia ciudadana.",
-            "b": "Deciden no participar en los procesos electorales de su municipio.",
-            "c": "Se informan adecuadamente, participan de manera activa y ejercen control social.",
-            "d": "Acuden a la violencia comunitaria como primera opción para solucionar desacuerdos cotidianos.",
-            "correcta": "C"
-        },
-        {
-            "enunciado": "Imagine el siguiente caso: A un agricultor de la comunidad de Las Cruces (Lorica) su entidad de salud (EPS) le niega de manera injustificada un servicio médico urgente que requiere para proteger su salud y su vida. De acuerdo con las herramientas legales estudiadas, el mecanismo más adecuado y rápido que debe usar el agricultor es:",
-            "a": "Un derecho de petición, porque necesita solicitar información general sobre el hospital.",
-            "b": "Una acción popular, debido a que el problema afecta al medio ambiente de toda la vereda.",
-            "c": "La acción de tutela, ya que sirve para proteger derechos fundamentales violados (como salud y vida).",
-            "d": "Una veeduría ciudadana, para auditar el presupuesto total anual de la EPS.",
-            "correcta": "C"
-        },
-        {
-            "enunciado": "La comunidad del corregimiento Las Cruces nota que el parque principal y el espacio público están siendo invadidos por construcciones particulares ilegales, afectando el libre tránsito de todos los habitantes. Para defender este derecho colectivo, la herramienta jurídica idónea es:",
-            "a": "La acción de tutela.",
-            "b": "La acción popular.",
-            "c": "El voto popular.",
-            "d": "El derecho de petición.",
-            "correcta": "B"
-        },
-        {
-            "enunciado": "Si un grupo de ciudadanos de Lorica desea examinar, vigilar y asegurar que los recursos públicos asignados para el mejoramiento de la infraestructura de la Institución Educativa Las Cruces se estén ejecutando de manera transparente y correcta, deben organizarse a través de:",
-            "a": "Una acción de tutela individual.",
-            "b": "Una veeduría ciudadana.",
-            "c": "Un derecho de petición de información reservada.",
-            "d": "Una jornada de votación local extemporánea.",
-            "correcta": "B"
-        },
-        {
-            "enunciado": "Durante el desarrollo del mini-proyecto \"Defensores del Derecho en Las Cruces\", los estudiantes trabajaron en equipos de 4 o 5 integrantes asignándose roles específicos. Si el equipo necesita consolidar las ideas principales en el cuaderno y registrar formalmente las conclusiones de los debates del grupo, esta responsabilidad recae sobre el:",
-            "a": "Diseñador.",
-            "b": "Líder.",
-            "c": "Investigador.",
-            "d": "Relator.",
-            "correcta": "D"
-        },
-        {
-            "enunciado": "En la campaña de información del proyecto, los estudiantes diseñaron carteles con la frase guía: \"En el Estado Social de Derecho, yo tengo derecho a... y puedo exigirlo mediante...\". Si el equipo seleccionó el derecho a la educación gratuita en el sector rural, la estructura lógicamente correcta para completar su afiche según la ley colombiana es:",
-            "a": "\"...derecho a la educación gratuita y puedo exigirlo mediante una acción popular para cambiar de alcalde\".",
-            "b": "\"...derecho a la educación gratuita y puedo exigirlo mediante una acción de tutela o derecho de petición si es vulnerado\".",
-            "c": "\"...derecho a la educación gratuita y puedo exigirlo mediante el uso del transporte público informal\".",
-            "d": "\"...derecho a la educación gratuita y puedo exigirlo mediante la suspensión del manual de convivencia escolar\".",
-            "correcta": "B"
-        }
-    ];
+            {
+                "enunciado": "En la Institución Educativa Rural Las Cruces, los estudiantes están diseñando una carretilla para transportar la cosecha de yuca de manera más eficiente. Al analizar el funcionamiento de la carretilla, se identifica que el punto de apoyo se encuentra en la rueda (extremo), la carga de yuca está en el centro y la fuerza se aplica en los mangos (el otro extremo). De acuerdo con las guías de clase sobre operadores mecánicos, ¿a qué tipo de palanca corresponde este diseño?",
+                "a": "Palanca de primera clase",
+                "b": "Palanca de segunda clase",
+                "c": "Palanca de tercera clase",
+                "d": "Palanca de cuarto grado",
+                "correcta": "B"
+            },
+            {
+                "enunciado": "Un agricultor de la vereda No Lo Creen necesita sacar agua de un pozo profundo utilizando una polea fija de una sola rueda. Si el balde lleno de agua pesa 15 kg, ¿cuál es el efecto mecánico principal que experimenta el agricultor al usar este operador tecnológico?",
+                "a": "El agricultor debe aplicar la misma fuerza de 15 kg, pero cambia la dirección de la fuerza para que sea más cómodo jalar hacia abajo en lugar de levantar hacia arriba.",
+                "b": "El agricultor reduce el esfuerzo a la mitad, necesitando aplicar una fuerza equivalente a solo 7.5 kg.",
+                "c": "El balde sube automáticamente sin necesidad de aplicar fuerza, ya que la polea acumula energía cinética de forma continua.",
+                "d": "La fuerza requerida se duplica debido a la fricción constante que se genera en el cubo y la garganta de la polea.",
+                "correcta": "A"
+            },
+            {
+                "enunciado": "Para reparar el techo de uno de los salones de la escuela, se requiere subir un bloque de tejas muy pesado. El docente Luis Blanco sugiere que, para disminuir el esfuerzo físico de los trabajadores, se debería construir un mecanismo que no solo cambie la dirección de la fuerza, sino que multiplique la eficacia del trabajo reduciendo la fuerza motriz necesaria. Para lograr este objetivo específico, el operador mecánico ideal que se debe implementar es:",
+                "a": "Una polea fija simple",
+                "b": "Una palanca de tercera clase",
+                "c": "Un sistema de poleas compuestas (móviles y fijas)",
+                "d": "Un muelle o resorte helicoidal",
+                "correcta": "C"
+            },
+            {
+                "enunciado": "Al analizar la estructura de una polea utilizada en los proyectos escolares, un estudiante nota que la cuerda se sale constantemente de su sitio, impidiendo la transmisión fluida del movimiento circular. Para solucionar este problema técnico de diseño, ¿en cuál de las siguientes partes de la polea se debe realizar la corrección o ajuste geométrico?",
+                "a": "En la garganta o canal",
+                "b": "En el cubo central",
+                "c": "En el cuerpo sólido",
+                "d": "En el gancho de fijación de la estructura",
+                "correcta": "A"
+            },
+            {
+                "enunciado": "En la comunidad rural del municipio de Lorica, un joven utiliza una aplicación móvil que analiza miles de imágenes previas de hojas de cultivo de maíz para detectar de manera automática si la planta padece alguna enfermedad por hongos. De acuerdo con el concepto de Inteligencia Artificial estudiado en clase, este sistema informático funciona gracias a:",
+                "a": "Un algoritmo rígido de instrucciones fijas donde el programador escribió manualmente el diagnóstico exacto para cada planta del mundo.",
+                "b": "El aprendizaje automático (Machine Learning), que encuentra patrones visuales autónomos a partir de grandes cantidades de ejemplos de datos.",
+                "c": "Un operador mecánico oculto dentro de la pantalla del celular que transforma la energía solar en un diagnóstico biológico.",
+                "d": "La telepatía digital que conecta el cerebro del agricultor directamente con los servidores de internet.",
+                "correcta": "B"
+            },
+            {
+                "enunciado": "Durante un debate académico en la clase de Informática, un estudiante afirma que las aplicaciones de Inteligencia Artificial pueden reemplazar por completo el pensamiento, la experiencia empírica y la toma de decisiones de los habitantes del campo. Evaluando críticamente los conceptos analizados en clase, la postura más acertada frente a esta afirmación es:",
+                "a": "El estudiante tiene razón, porque las computadoras actuales piensan exactamente igual que los humanos y poseen sentimientos propios sobre el campo.",
+                "b": "La afirmación es incorrecta porque la Inteligencia Artificial solo funciona en las grandes ciudades y es técnicamente imposible usarla en zonas rurales.",
+                "c": "La IA es una herramienta de apoyo que optimiza tareas mediante el análisis de datos, pero carece de la conciencia, el contexto cultural, la intuición y la capacidad de adaptación humana.",
+                "d": "La IA reemplazará a los humanos únicamente cuando los operadores mecánicos básicos como las palancas dejen de funcionar en la Tierra.",
+                "correcta": "C"
+            },
+            {
+                "enunciado": "Un grupo de docentes quiere programar un sistema informático básico para registrar las notas de los alumnos del grado octavo. Para ello, escriben una lista estricta, ordenada y finita de pasos lógicos e instrucciones exactas que la computadora debe ejecutar al pie de la letra para promediar las calificaciones. De acuerdo con el material conceptual de la asignatura, este conjunto de pasos secuenciales se define técnicamente como:",
+                "a": "Un mecanismo de efectos encadenados",
+                "b": "Un operador hidráulico lineal",
+                "c": "Un algoritmo o sistema basado en reglas",
+                "d": "Un sistema de aprendizaje automático sin datos",
+                "correcta": "C"
+            },
+            {
+                "enunciado": "La alcaldía del municipio de Lorica desea implementar una estrategia tecnológica innovadora para apoyar a las familias de la vereda Las Cruces en la gestión de sus parcelas productivas. Tomando como base los ejemplos estudiados sobre la Inteligencia Artificial en el entorno del campo, ¿cuál de los siguientes proyectos demuestra un uso real y directo de la IA para este fin?",
+                "a": "Implementar un software predictivo que analice datos satelitales históricos para advertir con precisión la probabilidad de lluvias intensas antes de realizar las siembras.",
+                "b": "Regalar herramientas manuales tradicionales como machetes y azadones de acero reforzado a cada familia de agricultores.",
+                "c": "Cambiar el escudo físico e institucional de la escuela rural por uno impreso a color en papel fotográfico de alta calidad.",
+                "d": "Construir cercas de madera tradicionales alrededor de los salones de clase para resguardar los animales de granja.",
+                "correcta": "A"
+            },
+            {
+                "enunciado": "Al utilizar unas pinzas para hielo o unas pinzas de depilar, nos damos cuenta de que el punto de apoyo está en un extremo, la carga o resistencia que sugerimos está en el otro extremo, y la fuerza de nuestros dedos se aplica justo en la parte media. Según la clasificación de operadores estudiada, estas pinzas actúan como una:",
+                "a": "Palanca de primera clase",
+                "b": "Palanca de segunda clase",
+                "c": "Palanca de tercera clase",
+                "d": "Polea móvil excéntrica",
+                "correcta": "C"
+            },
+            {
+                "enunciado": "Un grupo de estudiantes está construyendo un experimento en el salón de informática y necesita un operador que pertenezca estrictamente a la categoría de elementos mecánicos encargados de 'acumular energía elástica' para liberarla después. ¿Cuál de los siguientes operadores deben seleccionar?",
+                "a": "Un eje de transmisión de acero",
+                "b": "Una rueda dentada o engranaje",
+                "c": "Un muelle o resorte",
+                "d": "Una correa de caucho plana",
+                "correcta": "C"
+            },
+            {
+                "enunciado": "En la guía de clase se explica que una palanca de primera clase tiene el punto de apoyo (fulcro) ubicado exactamente entre la fuerza aplicada y la resistencia. ¿Cuál de las siguientes herramientas de uso común representa un ejemplo real de este tipo de palanca?",
+                "a": "Un abrelatas manual",
+                "b": "Una tijera de podar",
+                "c": "Una caña de pescar",
+                "d": "Un carretón de mudanzas",
+                "correcta": "B"
+            },
+            {
+                "enunciado": "Para que un sistema de Inteligencia Artificial basado en Aprendizaje Automático (Machine Learning) aprenda a diferenciar correctamente entre una planta sana y una enferma, requiere pasar por una fase inicial indispensable. Esta fase consiste en:",
+                "a": "Alimentar al sistema informático con grandes cantidades de ejemplos y datos previos estructurados.",
+                "b": "Conectar el cable de red de la computadora a un generador mecánico de poleas fijas.",
+                "c": "Cambiar las contraseñas de seguridad de los servidores escolares cada semana.",
+                "d": "Redactar un manual de instrucciones fijas donde esté prohibido usar datos o imágenes.",
+                "correcta": "A"
+            },
+            {
+                "enunciado": "¿Cuál es la diferencia técnica fundamental entre un algoritmo tradicional y un sistema avanzado de Inteligencia Artificial que utiliza Machine Learning?",
+                "a": "El algoritmo tradicional funciona sin electricidad, mientras que la Inteligencia Artificial requiere motores hidráulicos.",
+                "b": "El algoritmo tradicional sigue reglas e instrucciones exactas programadas de antemano; la IA descubre patrones propios analizando ejemplos y datos.",
+                "c": "El algoritmo requiere de una polea compuesta para realizar cálculos, mientras que la IA utiliza palancas de tercer grado.",
+                "d": "Los algoritmos tradicionales solo procesan números enteros y la IA solo reconoce voz humana en zonas urbanas.",
+                "correcta": "B"
+            },
+            {
+                "enunciado": "Las guías de clase definen un 'Operador' como un elemento que nos ayuda a realizar una tarea o que transforma un tipo de energía en otro. Si clasificamos un grifo o llave de paso de agua corriente que maneja la presión de un fluido, este pertenece al grupo de los operadores:",
+                "a": "Operadores electrónicos",
+                "b": "Operadores mecánicos de acumulación",
+                "c": "Operadores hidráulicos",
+                "d": "Operadores neumáticos de aire",
+                "correcta": "C"
+            },
+            {
+                "enunciado": "Un agricultor de Lorica observa que su teléfono celular le muestra sugerencias exactas sobre el mejor día de la semana para vender sus productos según las tendencias de precios en internet. Este fenómeno informático es posible gracias a que la Inteligencia Artificial:",
+                "a": "Puede adivinar el futuro de forma mágica sin necesidad de procesar archivos digitales.",
+                "b": "Analiza de forma constante grandes volúmenes de datos e históricos de precios para calcular probabilidades útiles.",
+                "c": "Funciona mediante un operador mecánico de poleas oculto detrás de la pantalla táctil.",
+                "b": "Sigue un orden cerrado de pasos escritos hace cien años que nunca cambian ni se adaptan al mercado.",
+                "correcta": "B"
+            }
+        ], 
+        "ETICA 8°": [
+            {
+                "enunciado": "El Estado se define como la organización política y jurídica de una sociedad en un territorio determinado, que cuenta con un gobierno encargado de crear y hacer cumplir las leyes. Según esta definición y lo aprendido en la guía, Colombia está organizada como un Estado porque cuenta con cuatro elementos esenciales, que son:",
+                "a": "Un presidente, alcaldes de Lorica, profesores de Las Cruces y un rector.",
+                "b": "Un territorio, una población, un gobierno y unas leyes (Constitución).",
+                "c": "Una junta de acción comunal, un hospital, una escuela y parcelas agrícolas.",
+                "d": "Mecanismos de tutela, derechos de petición, votos y veedurías ciudadanas.",
+                "correcta": "B"
+            },
+            {
+                "enunciado": "El Artículo 1º de la Constitución Política de 1991 define a Colombia como un Estado Social de Derecho. Cuando se incorpora específicamente el término 'Social', significa que el Estado no solo debe vigilar el orden, sino que adquiere el compromiso obligatorio de garantizar a los ciudadanos:",
+                "a": "La entrega de computadores y celulares de última tecnología a todas las familias.",
+                "b": "El acceso a servicios fundamentales como la educación, la salud, vivienda digna y trabajo justo.",
+                "c": "La exención total del pago de impuestos para los habitantes del sector urbano de Lorica.",
+                "d": "El control absoluto de las opiniones que los estudiantes expresan en sus cuadernos.",
+                "correcta": "B"
+            },
+            {
+                "enunciado": "En un Estado de Derecho, la característica de 'Legalidad' es fundamental para la convivencia. Esta característica significa que:",
+                "a": "El presidente de la República puede crear las leyes que él prefiera sin consultar a nadie.",
+                "b": "Las autoridades locales tienen permitido demoler viviendas si consideran que el pueblo lo necesita.",
+                "c": "Todo acto o decisión adoptada por el gobierno debe estar estrictamente autorizado por la ley.",
+                "d": "Los ciudadanos con mayores recursos económicos tienen el beneficio de no ser sancionados.",
+                "correcta": "C"
+            },
+            {
+                "enunciado": "Lea con atención la siguiente situación: Un alcalde de Lorica ordena demoler una casa habitada sin realizar un debido proceso legal previo ni presentar una orden escrita autorizada. Los dueños afectados deciden acudir ante un juez para detener la demolición. En este caso, el principio del Estado de Derecho que protege a los ciudadanos establece que:",
+                "a": "Los gobernantes tienen poder absoluto y los ciudadanos deben aceptar sus decisiones sin protestar.",
+                "b": "Tanto los ciudadanos como las autoridades y gobernantes deben obedecer la ley, pues nadie está por encima de ella.",
+                "c": "La ley solo protege a las personas vulnerables si viven en el centro urbano del municipio.",
+                "d": "Los alcaldes tienen la facultad de modificar la Constitución de 1991 según las emergencias locales.",
+                "correcta": "B"
+            },
+            {
+                "enunciado": "La estructura del Estado de Derecho contempla la 'Separación de Poderes'. De acuerdo con la tabla analizada en la guía de clase, este concepto se traduce en que:",
+                "a": "El poder está dividido en tres ramas independientes: Ejecutivo, Legislativo y Judicial, para evitar abusos.",
+                "b": "El presidente concentra todas las funciones públicas para agilizar la toma de decisiones.",
+                "c": "Los recursos públicos del sector rural se separan de los presupuestos de las ciudades principales.",
+                "d": "Cada corregimiento de Lorica puede dictar de manera autónoma su propio código de leyes penales.",
+                "correcta": "A"
+            },
+            {
+                "enunciado": "Al comparar el 'Estado de Derecho' con el 'Estado Social de Derecho', se encuentra una evolución en los deberes del Estado. Mientras el Estado de Derecho se concentra principalmente en proteger las libertades individuales y mantener el orden, el Estado Social de Derecho va más allá porque:",
+                "a": "Elimina las funciones de los jueces y el Congreso para concentrar el control en los campesinos.",
+                "b": "Se preocupa por garantizar a la justicia, la igualdad real y condiciones mínimas de bienestar, protegiendo a los más vulnerables.",
+                "c": "Exige que todos los estudiantes de las zonas rurales trabajen obligatoriamente desde jóvenes.",
+                "d": "Garantiza que no existan normas escritas y que los conflictos se solucionen de manera informal.",
+                "correcta": "B"
+            },
+            {
+                "enunciado": "La guía expone ejemplos concretos para diferenciar ambos modelos de Estado. Si el derecho a 'no ser detenido sin una causa justificada' es un ejemplo propio del Estado de Derecho, un ejemplo claro que representa la acción de un Estado Social de Derecho es:",
+                "a": "El cobro de multas de tránsito en las carreteras municipales.",
+                "b": "El derecho a recibir educación gratuita y acceso a servicios de salud oportunos.",
+                "c": "La libertad de viajar a otros países sin portar documentos de identidad.",
+                "d": "El permiso gubernamental para construir viviendas en zonas de riesgo natural.",
+                "correcta": "B"
+            },
+            {
+                "enunciado": "El Estado Social de Derecho otorga una protección especial a sectores de la población que se encuentran en situaciones de vulnerabilidad debido a factores económicos, sociales o geográficos. Según el texto, este grupo prioritario incluye a:",
+                "a": "Los grandes comerciantes de la región, los inversionistas extranjeros y los jueces de la República.",
+                "b": "Los niños, los adultos mayores, los campesinos y las comunidades étnicas.",
+                "c": "Exclusivamente a las autoridades del gobierno que residen en la capital del país.",
+                "d": "Los estudiantes que deciden abandonar la escuela para trabajar de manera informal.",
+                "correcta": "B"
+            },
+            {
+                "enunciado": "Analice los siguientes beneficios que el Estado Social de Derecho aporta a la vida cotidiana de las personas. ¿Cuál de las siguientes opciones describe correctamente por qué este modelo de organización fortalece la vida democrática?",
+                "a": "Permitir que los gobernantes actúen libremente según sus preferencias del momento.",
+                "b": "Asegura que las diferencias económicas impidan el acceso a los servicios de salud básica.",
+                "c": "Evita los abusos de poder, protege la dignidad humana, permite exigir derechos y promueve la igualdad real.",
+                "d": "Garantiza que la justicia se aplique de manera diferente dependiendo del estrato social del ciudadano.",
+                "correcta": "C"
+            },
+            {
+                "enunciado": "Para que el Estado Social de Derecho funcione de manera óptima en las comunidades, no basta con la existencia de la Constitución. El texto indica que este modelo funciona mejor cuando los ciudadanos:",
+                "a": "Permiten que los recursos públicos se gasten sin ningún tipo de vigilancia ciudadana.",
+                "b": "Deciden no participar en los procesos electorales de su municipio.",
+                "c": "Se informan adecuadamente, participan de manera activa y ejercen control social.",
+                "d": "Acuden a la violencia comunitaria como primera opción para solucionar desacuerdos cotidianos.",
+                "correcta": "C"
+            },
+            {
+                "enunciado": "Imagine el siguiente caso: A un agricultor de la comunidad de Las Cruces (Lorica) su entidad de salud (EPS) le niega de manera injustificada un servicio médico urgente que requiere para proteger su salud y su vida. De acuerdo con las herramientas legales estudiadas, el mecanismo más adecuado y rápido que debe usar el agricultor es:",
+                "a": "Un derecho de petición, porque necesita solicitar información general sobre el hospital.",
+                "b": "Una acción popular, debido a que el problema afecta al medio ambiente de toda la vereda.",
+                "c": "La acción de tutela, ya que sirve para proteger derechos fundamentales violados (como salud y vida).",
+                "d": "Una veeduría ciudadana, para auditar el presupuesto total anual de la EPS.",
+                "correcta": "C"
+            },
+            {
+                "enunciado": "La comunidad del corregimiento Las Cruces nota que el parque principal y el espacio público están siendo invadidos por construcciones particulares ilegales, afectando el libre tránsito de todos los habitantes. Para defender este derecho colectivo, la herramienta jurídica idónea es:",
+                "a": "La acción de tutela.",
+                "b": "La acción popular.",
+                "c": "El voto popular.",
+                "d": "El derecho de petición.",
+                "correcta": "B"
+            },
+            {
+                "enunciado": "Si un grupo de ciudadanos de Lorica desea examinar, vigilar y asegurar que los recursos públicos asignados para el mejoramiento de la infraestructura de la Institución Educativa Las Cruces se estén ejecutando de manera transparente y correcta, deben organizarse a través de:",
+                "a": "Una acción de tutela individual.",
+                "b": "Una veeduría ciudadana.",
+                "c": "Un derecho de petición de información reservada.",
+                "d": "Una jornada de votación local extemporánea.",
+                "correcta": "B"
+            },
+            {
+                "enunciado": "Durante el desarrollo del mini-proyecto 'Defensores del Derecho en Las Cruces', los estudiantes trabajaron en equipos de 4 o 5 integrantes asignándose roles específicos. Si el equipo necesita consolidar las ideas principales en el cuaderno y registrar formalmente las conclusiones de los debates del grupo, esta responsabilidad recae sobre el:",
+                "a": "Diseñador.",
+                "b": "Líder.",
+                "c": "Investigador.",
+                "d": "Relator.",
+                "correcta": "D"
+            },
+            {
+                "enunciado": "En la campaña de información del proyecto, los estudiantes diseñaron carteles con la frase guía: 'En el Estado Social de Derecho, yo tengo derecho a... y puedo exigirlo mediante...'. Si el equipo seleccionó el derecho a la educación gratuita en el sector rural, la estructura lógicamente correcta para completar su afiche según la ley colombiana es:",
+                "a": "derecho a la educación gratuita y puedo exigirlo mediante una acción popular para cambiar de alcalde.",
+                "b": "derecho a la educación gratuita y puedo exigirlo mediante una acción de tutela o derecho de petición si es vulnerado.",
+                "c": "derecho a la educación gratuita y puedo exigirlo mediante el uso del transporte público informal.",
+                "d": "derecho a la educación gratuita y puedo exigirlo mediante la suspensión del manual de convivencia escolar.",
+                "correcta": "B"
+            }
+        ]
+    };
 
     // =========================================================================
     // LÓGICA DEL MOTOR INTERNO
@@ -602,6 +600,7 @@
         document.getElementById(screenId).classList.add('active');
     }
 
+    // Proteger módulo
     function askPassword() {
         const pass = prompt("Acceso Restringido. Ingrese la contraseña del docente:");
         if (pass === SEÑOR_DOCENTE_PASSWORD) { showAdmin(); } 
